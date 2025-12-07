@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniPapers - University Past Papers Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            padding: 0.5rem 0;
+            border: 1px solid var(--border-gray);
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: background-color 0.2s;
+            font-size: 0.95rem;
+        }
+        
+        .dropdown-item:hover {
+            background-color: var(--light-gray);
+            color: var(--air-force-blue);
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-gray);
+            margin: 0.5rem 0;
+        }
+        
+        /* Active state for dropdown items */
+        .dropdown-item.active {
+            background-color: var(--air-force-blue);
+            color: white;
+        }
+        
+        /* Mobile responsiveness for dropdown */
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                padding-left: 1rem;
+            }
+            
+            .dropdown:hover .dropdown-menu {
+                display: none;
+            }
+            
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+            
+            .dropdown-item {
+                padding: 0.5rem 0;
+                color: var(--primary-white);
+            }
+            
+            .dropdown-item:hover {
+                background-color: transparent;
+                color: var(--primary-white);
+            }
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            background-color: #dc3545;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            margin-left: 0.25rem;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">UP</div>
+            <a href="/" class="logo-text">UniPapers</a>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/browse" class="nav-link">Browse Papers</a>
+            
+            {% if current_user.is_authenticated %}
+                <a href="/upload" class="nav-link">Upload Paper</a>
+                
+                {% if current_user.is_admin %}
+                    <!-- Admin Dropdown -->
+                    <div class="dropdown">
+                        <a href="/admin/dashboard" class="nav-link dropdown-toggle">
+                            Admin Panel
+                            {% if pending_count > 0 %}
+                                <span class="notification-badge">{{ pending_count }}</span>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="/admin/dashboard" class="dropdown-item">
+                                📊 Dashboard
+                                {% if pending_count > 0 %}
+                                    <span class="notification-badge">{{ pending_count }}</span>
+                                {% endif %}
+                            </a>
+                            <a href="/admin/papers" class="dropdown-item">📚 Paper Management</a>
+                            <a href="/admin/users" class="dropdown-item">👥 User Management</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/admin/settings" class="dropdown-item">⚙️ Settings</a>
+                            <a href="/admin/logs" class="dropdown-item">📋 System Logs</a>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <!-- User Dropdown -->
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        👤 {{ current_user.username }}
+                        {% if current_user.is_admin %}
+                            <span style="color: #ffd700; margin-left: 0.25rem;">★</span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" style="color: var(--medium-gray); font-size: 0.9rem; cursor: default;">
+                            <strong>{{ current_user.email }}</strong>
+                            {% if current_user.is_admin %}
+                                <div style="color: var(--air-force-blue); font-size: 0.8rem; margin-top: 0.25rem;">
+                                    Administrator
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="/browse?uploader={{ current_user.id }}" class="dropdown-item">📄 My Uploads</a>
+                        <a href="#" class="dropdown-item">👤 My Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/logout" class="dropdown-item" style="color: #dc3545;">🚪 Logout</a>
+                    </div>
+                </div>
+                
+            {% else %}
+                <a href="/login" class="nav-link">Login</a>
+                <a href="/register" class="nav-link">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'error' if category == 'error' else 'success' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 UniPapers. All rights reserved.</p>
+            <p>Academic resource platform for university students.</p>
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--medium-gray);">
+                {% if current_user.is_authenticated %}
+                    <span>Logged in as: {{ current_user.username }}</span>
+                    {% if current_user.is_admin %}
+                        <span style="margin-left: 1rem; color: var(--air-force-blue);">(Administrator)</span>
+                    {% endif %}
+                {% else %}
+                    <span>You are not logged in</span>
+                {% endif %}
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add active class to current page nav link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            
+            // Highlight current page in main nav
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Highlight current page in dropdown items
+            dropdownItems.forEach(item => {
+                if (item.getAttribute('href') === currentPath) {
+                    item.classList.add('active');
+                    // Also highlight the parent dropdown toggle
+                    const parentDropdown = item.closest('.dropdown');
+                    if (parentDropdown) {
+                        const toggle = parentDropdown.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            toggle.classList.add('active');
+                        }
+                    }
+                }
+            });
+            
+            // Mobile dropdown toggle
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        const dropdown = this.closest('.dropdown');
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            });
+            
+            // Close dropdowns when clicking outside (mobile)
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    const dropdowns = document.querySelectorAll('.dropdown');
+                    dropdowns.forEach(dropdown => {
+                        if (!dropdown.contains(e.target)) {
+                            dropdown.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Show pending count if available (for real-time updates)
+        {% if pending_count is defined %}
+            // Update notification badge every 30 seconds
+            setInterval(async () => {
+                try {
+                    const response = await fetch('/api/admin/stats');
+                    const data = await response.json();
+                    
+                    const badges = document.querySelectorAll('.notification-badge');
+                    if (data.pending_papers > 0) {
+                        badges.forEach(badge => {
+                            badge.textContent = data.pending_papers;
+                            badge.style.display = 'inline';
+                        });
+                    } else {
+                        badges.forEach(badge => {
+                            badge.style.display = 'none';
+                        });
+                    }
+                } catch (error) {
+                    console.log('Could not fetch updated stats');
+                }
+            }, 30000);
+        {% endif %}
+    </script>
+</body>
+</html>
