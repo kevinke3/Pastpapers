@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-header" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 style="color: var(--air-force-blue);">Admin Settings</h1>
+            <p style="color: var(--medium-gray);">Configure platform settings and preferences</p>
+        </div>
+        <a href="/admin/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+    <!-- Security Settings -->
+    <div class="card">
+        <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+            Security Settings
+        </h2>
+        
+        <form method="POST" action="/admin/settings">
+            <div class="form-group">
+                <label for="new_admin_password" class="form-label">New Admin Password</label>
+                <input type="password" id="new_admin_password" name="new_admin_password" class="form-control" 
+                       placeholder="Enter new password">
+                <small style="color: var(--medium-gray); display: block; margin-top: 0.25rem;">
+                    Leave empty to keep current password
+                </small>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password" class="form-label">Confirm New Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" 
+                       placeholder="Confirm new password">
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary">Update Password</button>
+                <button type="reset" class="btn btn-secondary" style="margin-left: 1rem;">Reset</button>
+            </div>
+        </form>
+        
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-gray);">
+            <h4 style="color: var(--air-force-blue); margin-bottom: 1rem;">Security Status</h4>
+            <div style="display: grid; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Password Strength</span>
+                    <span style="color: #28a745; font-weight: 600;">Strong</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Last Password Change</span>
+                    <span>{{ current_user.created_at.strftime('%Y-%m-%d') }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Two-Factor Authentication</span>
+                    <span style="color: #dc3545;">Disabled</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Platform Settings -->
+    <div class="card">
+        <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+            Platform Settings
+        </h2>
+        
+        <div style="display: grid; gap: 1.5rem;">
+            <div>
+                <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Paper Upload Settings</h4>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Maximum File Size</span>
+                        <span style="font-weight: 600;">16 MB</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Allowed File Types</span>
+                        <span style="font-weight: 600;">PDF only</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Auto-approve Uploads</span>
+                        <label class="switch">
+                            <input type="checkbox" disabled>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">User Registration</h4>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Open Registration</span>
+                        <label class="switch">
+                            <input type="checkbox" checked disabled>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Email Verification</span>
+                        <label class="switch">
+                            <input type="checkbox" disabled>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Display Settings</h4>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Papers per Page</span>
+                        <span style="font-weight: 600;">20</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Default Sort Order</span>
+                        <span style="font-weight: 600;">Newest First</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-gray);">
+            <button class="btn btn-secondary" style="width: 100%;" disabled>
+                Save Platform Settings (Coming Soon)
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Maintenance Tools -->
+<div class="card" style="margin-bottom: 2rem;">
+    <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+        Maintenance Tools
+    </h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div style="text-align: center; padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">🗑️</div>
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Clear Cache</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">Clear temporary files</p>
+            <button class="btn btn-warning" disabled>Clear</button>
+        </div>
+        
+        <div style="text-align: center; padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">💾</div>
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Backup Database</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">Create database backup</p>
+            <button class="btn btn-success" disabled>Backup</button>
+        </div>
+        
+        <div style="text-align: center; padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Generate Reports</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">Create usage reports</p>
+            <button class="btn btn-primary" disabled>Generate</button>
+        </div>
+        
+        <div style="text-align: center; padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">🔍</div>
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">System Check</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">Run system diagnostics</p>
+            <button class="btn btn-info" disabled>Check</button>
+        </div>
+    </div>
+</div>
+
+<!-- Danger Zone -->
+<div class="card" style="border: 2px solid #dc3545;">
+    <h2 style="color: #dc3545; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #dc3545;">
+        ⚠️ Danger Zone
+    </h2>
+    
+    <div style="display: grid; gap: 1.5rem;">
+        <div>
+            <h4 style="color: #dc3545; margin-bottom: 0.5rem;">Delete All Papers</h4>
+            <p style="color: var(--medium-gray); margin-bottom: 1rem;">
+                Permanently delete all uploaded papers and their files. This action cannot be undone.
+            </p>
+            <button class="btn btn-danger" disabled>Delete All Papers</button>
+        </div>
+        
+        <div>
+            <h4 style="color: #dc3545; margin-bottom: 0.5rem;">Reset Platform</h4>
+            <p style="color: var(--medium-gray); margin-bottom: 1rem;">
+                Reset the entire platform to factory settings. All data will be lost.
+            </p>
+            <button class="btn btn-danger" disabled>Reset Platform</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Switch toggle */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+    }
+    
+    input:checked + .slider {
+        background-color: var(--air-force-blue);
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+    
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}

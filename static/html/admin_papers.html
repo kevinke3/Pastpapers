@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-header" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 style="color: var(--air-force-blue);">Paper Management</h1>
+            <p style="color: var(--medium-gray);">Review and manage all uploaded papers</p>
+        </div>
+        <div>
+            <a href="/admin/dashboard" class="btn btn-secondary">← Dashboard</a>
+            <a href="/upload" class="btn btn-primary" style="margin-left: 0.5rem;">Upload New</a>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="color: var(--air-force-blue); margin: 0;">All Papers</h2>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="/admin/papers?status=all" 
+                   class="btn btn-sm {% if status_filter == 'all' %}btn-primary{% else %}btn-secondary{% endif %}">
+                    All ({{ papers.total }})
+                </a>
+                <a href="/admin/papers?status=pending" 
+                   class="btn btn-sm {% if status_filter == 'pending' %}btn-primary{% else %}btn-secondary{% endif %}">
+                    Pending
+                </a>
+                <a href="/admin/papers?status=approved" 
+                   class="btn btn-sm {% if status_filter == 'approved' %}btn-primary{% else %}btn-secondary{% endif %}">
+                    Approved
+                </a>
+            </div>
+            
+            <form method="GET" action="/admin/papers" style="display: flex; gap: 0.5rem;">
+                <input type="text" name="q" value="{{ search_query }}" class="form-control" placeholder="Search papers..." style="width: 250px;">
+                <input type="hidden" name="status" value="{{ status_filter }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+                {% if search_query %}
+                    <a href="/admin/papers?status={{ status_filter }}" class="btn btn-secondary">Clear</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Course</th>
+                    <th>University</th>
+                    <th>Year</th>
+                    <th>Uploader</th>
+                    <th>Status</th>
+                    <th>Downloads</th>
+                    <th>Uploaded</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paper in papers.items %}
+                    <tr style="{% if not paper.is_approved %}background-color: #fff3cd;{% endif %}">
+                        <td>{{ paper.id }}</td>
+                        <td>
+                            <strong style="color: var(--air-force-blue);">{{ paper.title }}</strong>
+                            {% if paper.rejection_reason %}
+                                <div style="font-size: 0.85rem; color: #dc3545; margin-top: 0.25rem;">
+                                    <strong>Rejection Reason:</strong> {{ paper.rejection_reason }}
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="paper-code" style="display: block; margin-bottom: 0.25rem;">{{ paper.course_code }}</span>
+                            <span style="font-size: 0.85rem; color: var(--medium-gray);">{{ paper.course_name }}</span>
+                        </td>
+                        <td>{{ paper.university }}</td>
+                        <td>{{ paper.year }}</td>
+                        <td>
+                            <span style="color: var(--air-force-blue);">{{ paper.uploader.username }}</span>
+                            {% if paper.uploader.is_admin %}<span style="color: #6f42c1; font-size: 0.8rem;"> (Admin)</span>{% endif %}
+                        </td>
+                        <td>
+                            {% if paper.is_approved %}
+                                <span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+                                    ✓ Approved
+                                </span>
+                            {% else %}
+                                <span class="badge" style="background-color: #ffc107; color: black; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+                                    ⏳ Pending
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span style="color: var(--air-force-blue); font-weight: 600;">{{ paper.downloads }}</span>
+                        </td>
+                        <td>{{ paper.upload_date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <a href="/static/uploads/{{ paper.filename }}" target="_blank" 
+                                   class="btn btn-sm btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                    View
+                                </a>
+                                
+                                {% if not paper.is_approved %}
+                                    <form method="POST" action="/admin/papers/approve/{{ paper.id }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                            Approve
+                                        </button>
+                                    </form>
+                                    
+                                    <button onclick="showRejectModal({{ paper.id }})" 
+                                            class="btn btn-sm btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                        Reject
+                                    </button>
+                                {% else %}
+                                    <form method="POST" action="/admin/papers/reject/{{ paper.id }}" style="display: inline;">
+                                        <input type="hidden" name="rejection_reason" value="Admin decision">
+                                        <button type="submit" class="btn btn-sm btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                            Unapprove
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                
+                                <a href="/admin/papers/delete/{{ paper.id }}" 
+                                   class="btn btn-sm btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;"
+                                   onclick="return confirm('Are you sure you want to delete this paper? This action cannot be undone.')">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 2rem; color: var(--medium-gray);">
+                            No papers found.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% if papers.pages > 1 %}
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem;">
+            {% if papers.has_prev %}
+                <a href="{{ url_for('admin_papers', page=papers.prev_num, status=status_filter, q=search_query) }}" 
+                   class="btn btn-secondary">Previous</a>
+            {% endif %}
+            
+            {% for page_num in papers.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if page_num %}
+                    {% if page_num == papers.page %}
+                        <span class="btn btn-primary">{{ page_num }}</span>
+                    {% else %}
+                        <a href="{{ url_for('admin_papers', page=page_num, status=status_filter, q=search_query) }}" 
+                           class="btn btn-secondary">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    <span class="btn btn-secondary disabled">...</span>
+                {% endif %}
+            {% endfor %}
+            
+            {% if papers.has_next %}
+                <a href="{{ url_for('admin_papers', page=papers.next_num, status=status_filter, q=search_query) }}" 
+                   class="btn btn-secondary">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- Rejection Modal -->
+<div id="rejectModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div class="card" style="width: 500px; max-width: 90%;">
+        <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Reject Paper</h3>
+        <form id="rejectForm" method="POST">
+            <div class="form-group">
+                <label for="rejection_reason" class="form-label">Reason for Rejection</label>
+                <textarea id="rejection_reason" name="rejection_reason" class="form-control" rows="4" 
+                          placeholder="Please provide a reason for rejecting this paper..."></textarea>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+                <button type="button" onclick="hideRejectModal()" class="btn btn-secondary">Cancel</button>
+                <button type="submit" class="btn btn-danger">Reject Paper</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let currentPaperId = null;
+    
+    function showRejectModal(paperId) {
+        currentPaperId = paperId;
+        const form = document.getElementById('rejectForm');
+        form.action = `/admin/papers/reject/${paperId}`;
+        document.getElementById('rejectModal').style.display = 'flex';
+    }
+    
+    function hideRejectModal() {
+        currentPaperId = null;
+        document.getElementById('rejectModal').style.display = 'none';
+        document.getElementById('rejection_reason').value = '';
+    }
+    
+    // Close modal when clicking outside
+    document.getElementById('rejectModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideRejectModal();
+        }
+    });
+</script>
+{% endblock %}
