@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import func, desc
 from config import Config
 
-app = Flask(__name__, static_folder='static', template_folder='templates/html')
+app = Flask(__name__)
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)
@@ -67,7 +67,16 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Routes
+# Inject pending count for admin notifications
+@app.context_processor
+def inject_pending_count():
+    if current_user.is_authenticated and current_user.is_admin:
+        pending_count = PastPaper.query.filter_by(is_approved=False).count()
+        return dict(pending_count=pending_count)
+    return dict(pending_count=0)
+
+# ========== BASIC USER ROUTES (MISSING IN YOUR CODE) ==========
+
 @app.route('/')
 def home():
     # Show some stats on homepage
@@ -111,6 +120,115 @@ def login():
             flash('Invalid username or password', 'error')
     
     return render_template('login.html')
+
+# === ADD THIS ROUTE ===
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        if User.query.filter_by(username=username).first():
+            flash('Username already exists', 'error')
+            return redirect(url_for('register'))
+        
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered', 'error')
+            return redirect(url_for('register'))
+        
+        user = User(username=username, email=email)
+        user.set_password(password)
+        
+        db.session.add(user)
+        db.session.commit()
+        
+        flash('Registration successful! Please login.', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
+
+# === ADD THIS ROUTE ===
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logged out successfully', 'success')
+    return redirect(url_for('home'))
+
+# === ADD THIS ROUTE ===
+@app.route('/browse')
+def browse():
+    papers = PastPaper.query.filter_by(is_approved=True).all()
+    return render_template('browse.html', papers=papers)
+
+# === ADD THIS ROUTE ===
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file selected', 'error')
+            return redirect(request.url)
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            flash('No file selected', 'error')
+            return redirect(request.url)
+        
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            
+            # Avoid filename collisions
+            counter = 1
+            while os.path.exists(filepath):
+                name, ext = os.path.splitext(filename)
+                filename = f"{name}_{counter}{ext}"
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                counter += 1
+            
+            file.save(filepath)
+            
+            paper = PastPaper(
+                title=request.form.get('title'),
+                course_code=request.form.get('course_code'),
+                course_name=request.form.get('course_name'),
+                university=request.form.get('university'),
+                year=int(request.form.get('year')),
+                semester=request.form.get('semester'),
+                filename=filename,
+                uploader_id=current_user.id
+            )
+            
+            db.session.add(paper)
+            db.session.commit()
+            
+            flash('Paper uploaded successfully! Waiting for admin approval.', 'success')
+            return redirect(url_for('browse'))
+        else:
+            flash('Only PDF files are allowed', 'error')
+    
+    return render_template('upload.html')
+
+# === ADD THIS ROUTE ===
+@app.route('/download/<int:paper_id>')
+def download(paper_id):
+    paper = PastPaper.query.get_or_404(paper_id)
+    if not paper.is_approved and (not current_user.is_authenticated or current_user.id != paper.uploader_id):
+        flash('Paper not available', 'error')
+        return redirect(url_for('browse'))
+    
+    paper.downloads += 1
+    db.session.commit()
+    
+    return send_from_directory(app.config['UPLOAD_FOLDER'], paper.filename, as_attachment=True)
+
+# ========== ADMIN ROUTES (YOUR EXISTING CODE) ==========
 
 @app.route('/admin/dashboard')
 @login_required
@@ -343,10 +461,23 @@ def api_admin_stats():
     }
     return jsonify(stats)
 
+# ========== ADDITIONAL HELPER ROUTES ==========
+
+@app.route('/admin')
+@login_required
+@admin_required
+def admin():
+    """Redirect to admin dashboard"""
+    return redirect(url_for('admin_dashboard'))
+
 # Initialize database
 with app.app_context():
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     os.makedirs('instance', exist_ok=True)
+    
+    # For development: drop and recreate tables to handle schema changes
+    # Remove db.drop_all() in production!
+    db.drop_all()
     db.create_all()
     
     # Create admin user if not exists
@@ -358,6 +489,8 @@ with app.app_context():
         admin.set_password('admin123')  # Change this in production!
         db.session.add(admin)
         db.session.commit()
+        print("✓ Admin user created: username='admin', password='admin123'")
+        print("✓ Please change the admin password immediately!")
 
 if __name__ == '__main__':
     app.run(debug=True)
