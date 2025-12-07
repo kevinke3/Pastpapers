@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="university" class="form-label">University*</label>
                 <input type="text" id="university" name="university" class="form-control" required 
-                       placeholder="e.g., University of Technology">
+                       placeholder="e.g., University of Nairobi">
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
@@ -37,7 +37,7 @@
                     <label for="year" class="form-label">Year*</label>
                     <select id="year" name="year" class="form-control form-select" required>
                         <option value="">Select Year</option>
-                        {% for year in range(2023, 2010, -1) %}
+                        {% for year in range(2025, 2009, -1) %}
                             <option value="{{ year }}">{{ year }}</option>
                         {% endfor %}
                     </select>
@@ -47,10 +47,10 @@
                     <label for="semester" class="form-label">Semester (Optional)</label>
                     <select id="semester" name="semester" class="form-control form-select">
                         <option value="">Select Semester</option>
-                        <option value="Fall">Fall</option>
-                        <option value="Spring">Spring</option>
-                        <option value="Summer">Summer</option>
-                        <option value="Winter">Winter</option>
+                        <option value="Fall">1</option>
+                        <option value="Spring">2</option>
+                        <option value="Summer">3</option>
+                        <option value="Winter">4</option>
                     </select>
                 </div>
             </div>
