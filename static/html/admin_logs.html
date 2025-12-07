@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-header" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 style="color: var(--air-force-blue);">System Logs</h1>
+            <p style="color: var(--medium-gray);">View system activity and logs</p>
+        </div>
+        <a href="/admin/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="color: var(--air-force-blue); margin: 0;">Activity Log</h2>
+        <div style="display: flex; gap: 1rem;">
+            <select id="logLevel" class="form-control form-select" style="width: 150px;">
+                <option value="all">All Levels</option>
+                <option value="info">Info</option>
+                <option value="warning">Warning</option>
+                <option value="error">Error</option>
+            </select>
+            <button onclick="filterLogs()" class="btn btn-primary">Filter</button>
+            <button onclick="refreshLogs()" class="btn btn-secondary">Refresh</button>
+        </div>
+    </div>
+    
+    <div style="max-height: 500px; overflow-y: auto; border: 1px solid var(--border-gray); border-radius: 8px;">
+        <div style="padding: 1rem; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem;">
+            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
+                [2024-01-15 10:30:15] INFO: Admin '{{ current_user.username }}' logged in
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #17a2b8;">
+                [2024-01-15 10:25:42] INFO: New user 'student123' registered
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #28a745;">
+                [2024-01-15 10:20:18] INFO: Paper 'CS101 Final Exam 2023' approved by admin
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #ffc107;">
+                [2024-01-15 10:15:33] WARNING: Paper 'MATH201 Midterm' rejected - Low quality scan
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #dc3545;">
+                [2024-01-15 10:10:05] ERROR: Failed to process upload from user 'user456'
+            </div>
+            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
+                [2024-01-15 10:05:21] INFO: User 'professorX' uploaded paper 'PHYS101 Lab Exam'
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #28a745;">
+                [2024-01-15 10:00:12] INFO: System backup completed successfully
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #17a2b8;">
+                [2024-01-15 09:55:47] INFO: 5 new papers uploaded in the last hour
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #ffc107;">
+                [2024-01-15 09:50:33] WARNING: Storage usage at 85% - Consider cleanup
+            </div>
+            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
+                [2024-01-15 09:45:19] INFO: Database optimization completed
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #28a745;">
+                [2024-01-15 09:40:05] INFO: 42 papers downloaded today
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #dc3545;">
+                [2024-01-15 09:35:51] ERROR: Email service temporarily unavailable
+            </div>
+            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
+                [2024-01-15 09:30:37] INFO: User 'admin' modified settings
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #17a2b8;">
+                [2024-01-15 09:25:23] INFO: New university 'Stanford University' added to system
+            </div>
+            <div style="margin-bottom: 0.5rem; color: #ffc107;">
+                [2024-01-15 09:20:09] WARNING: Suspicious activity detected from IP 192.168.1.100
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; color: var(--medium-gray); font-size: 0.9rem;">
+        <div>Showing 15 log entries</div>
+        <div>Last updated: {{ current_time.strftime('%Y-%m-%d %H:%M:%S') if current_time else 'Just now' }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem;">Log Management</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <div style="padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Log Rotation</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">
+                Configure automatic log rotation and retention policies
+            </p>
+            <button class="btn btn-primary" disabled>Configure</button>
+        </div>
+        
+        <div style="padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Export Logs</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">
+                Export system logs for analysis or archival purposes
+            </p>
+            <button class="btn btn-success" disabled>Export CSV</button>
+        </div>
+        
+        <div style="padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Clear Logs</h4>
+            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">
+                Clear all log entries (older than specified period)
+            </p>
+            <button class="btn btn-danger" disabled>Clear All</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterLogs() {
+        const level = document.getElementById('logLevel').value;
+        const logEntries = document.querySelectorAll('.card > div > div > div');
+        
+        logEntries.forEach(entry => {
+            const logText = entry.textContent.toLowerCase();
+            
+            if (level === 'all') {
+                entry.style.display = 'block';
+            } else if (logText.includes(`[${level}]`)) {
+                entry.style.display = 'block';
+            } else {
+                entry.style.display = 'none';
+            }
+        });
+    }
+    
+    function refreshLogs() {
+        // In a real application, this would fetch new logs from the server
+        alert('Log refresh would fetch new entries from the server. This is a demo.');
+    }
+    
+    // Auto-refresh logs every 30 seconds
+    setInterval(refreshLogs, 30000);
+</script>
+
+<style>
+    /* Add some styles for log levels */
+    .card > div > div > div[style*="color: #17a2b8"]:before {
+        content: "ℹ️ ";
+    }
+    
+    .card > div > div > div[style*="color: #28a745"]:before {
+        content: "✅ ";
+    }
+    
+    .card > div > div > div[style*="color: #ffc107"]:before {
+        content: "⚠️ ";
+    }
+    
+    .card > div > div > div[style*="color: #dc3545"]:before {
+        content: "❌ ";
+    }
+</style>
+{% endblock %}
