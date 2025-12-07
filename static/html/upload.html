@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h1 style="margin-bottom: 2rem; color: var(--air-force-blue);">Upload Past Paper</h1>
+    
+    <div class="card">
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title" class="form-label">Paper Title*</label>
+                <input type="text" id="title" name="title" class="form-control" required 
+                       placeholder="e.g., Final Examination - Computer Science 101">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label for="course_code" class="form-label">Course Code*</label>
+                    <input type="text" id="course_code" name="course_code" class="form-control" required 
+                           placeholder="e.g., CS101">
+                </div>
+                
+                <div class="form-group">
+                    <label for="course_name" class="form-label">Course Name*</label>
+                    <input type="text" id="course_name" name="course_name" class="form-control" required 
+                           placeholder="e.g., Introduction to Computer Science">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="university" class="form-label">University*</label>
+                <input type="text" id="university" name="university" class="form-control" required 
+                       placeholder="e.g., University of Technology">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label for="year" class="form-label">Year*</label>
+                    <select id="year" name="year" class="form-control form-select" required>
+                        <option value="">Select Year</option>
+                        {% for year in range(2023, 2010, -1) %}
+                            <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="semester" class="form-label">Semester (Optional)</label>
+                    <select id="semester" name="semester" class="form-control form-select">
+                        <option value="">Select Semester</option>
+                        <option value="Fall">Fall</option>
+                        <option value="Spring">Spring</option>
+                        <option value="Summer">Summer</option>
+                        <option value="Winter">Winter</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="file" class="form-label">PDF File*</label>
+                <input type="file" id="file" name="file" class="form-control" accept=".pdf" required>
+                <small style="color: var(--medium-gray); display: block; margin-top: 0.5rem;">
+                    Only PDF files are allowed. Maximum file size: 16MB.
+                </small>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary">Upload Paper</button>
+                <a href="/browse" class="btn btn-secondary" style="margin-left: 1rem;">Cancel</a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="card" style="margin-top: 2rem; background-color: var(--light-gray);">
+        <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Upload Guidelines</h3>
+        <ul style="padding-left: 1.5rem; color: var(--medium-gray);">
+            <li>Only upload past examination papers that you have the right to share</li>
+            <li>Ensure the paper is clearly readable and complete</li>
+            <li>Provide accurate course information for better searchability</li>
+            <li>All uploads are subject to admin review before publication</li>
+            <li>Uploaded papers will be publicly available to all users</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

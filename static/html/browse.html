@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="margin-bottom: 2rem; color: var(--air-force-blue);">Browse Past Papers</h1>
+
+<div class="filters">
+    <h3 style="margin-bottom: 1rem; color: var(--air-force-blue);">Filter Papers</h3>
+    <div class="filter-grid">
+        <div>
+            <label class="form-label">Course Code</label>
+            <input type="text" id="filter-code" class="form-control" placeholder="e.g., CS101">
+        </div>
+        <div>
+            <label class="form-label">University</label>
+            <input type="text" id="filter-university" class="form-control" placeholder="e.g., Harvard University">
+        </div>
+        <div>
+            <label class="form-label">Year</label>
+            <select id="filter-year" class="form-control form-select">
+                <option value="">All Years</option>
+                {% for year in range(2023, 2010, -1) %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="form-label">Sort By</label>
+            <select id="filter-sort" class="form-control form-select">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="downloads">Most Downloads</option>
+            </select>
+        </div>
+    </div>
+    <div style="margin-top: 1rem; text-align: right;">
+        <button onclick="applyFilters()" class="btn btn-primary">Apply Filters</button>
+        <button onclick="resetFilters()" class="btn btn-secondary">Reset</button>
+    </div>
+</div>
+
+<div id="papers-container">
+    {% for paper in papers %}
+        <div class="card paper-card" data-course="{{ paper.course_code }}" data-university="{{ paper.university }}" data-year="{{ paper.year }}">
+            <div class="paper-header">
+                <h3 class="paper-title">{{ paper.title }}</h3>
+                <span class="paper-code">{{ paper.course_code }}</span>
+            </div>
+            <div class="paper-meta">
+                <span><strong>University:</strong> {{ paper.university }}</span>
+                <span><strong>Year:</strong> {{ paper.year }}</span>
+                {% if paper.semester %}
+                    <span><strong>Semester:</strong> {{ paper.semester }}</span>
+                {% endif %}
+                <span><strong>Uploaded:</strong> {{ paper.upload_date.strftime('%Y-%m-%d') }}</span>
+                <span><strong>Downloads:</strong> {{ paper.downloads }}</span>
+            </div>
+            <div class="paper-actions">
+                <a href="/download/{{ paper.id }}" class="btn btn-primary btn-small">Download PDF</a>
+                {% if current_user.is_admin %}
+                    <button onclick="viewPaperDetails({{ paper.id }})" class="btn btn-secondary btn-small">Details</button>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <h3 style="color: var(--medium-gray); margin-bottom: 1rem;">No papers available</h3>
+            <p>There are no approved papers in the system yet.</p>
+            {% if current_user.is_authenticated %}
+                <a href="/upload" class="btn btn-primary" style="margin-top: 1rem;">Upload First Paper</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    function applyFilters() {
+        const codeFilter = document.getElementById('filter-code').value.toLowerCase();
+        const universityFilter = document.getElementById('filter-university').value.toLowerCase();
+        const yearFilter = document.getElementById('filter-year').value;
+        const sortFilter = document.getElementById('filter-sort').value;
+        
+        const papers = document.querySelectorAll('.paper-card');
+        
+        papers.forEach(paper => {
+            const courseCode = paper.dataset.course.toLowerCase();
+            const university = paper.dataset.university.toLowerCase();
+            const year = paper.dataset.year;
+            
+            let show = true;
+            
+            if (codeFilter && !courseCode.includes(codeFilter)) {
+                show = false;
+            }
+            if (universityFilter && !university.includes(universityFilter)) {
+                show = false;
+            }
+            if (yearFilter && year !== yearFilter) {
+                show = false;
+            }
+            
+            paper.style.display = show ? 'block' : 'none';
+        });
+    }
+    
+    function resetFilters() {
+        document.getElementById('filter-code').value = '';
+        document.getElementById('filter-university').value = '';
+        document.getElementById('filter-year').value = '';
+        document.getElementById('filter-sort').value = 'newest';
+        
+        const papers = document.querySelectorAll('.paper-card');
+        papers.forEach(paper => {
+            paper.style.display = 'block';
+        });
+    }
+    
+    function viewPaperDetails(paperId) {
+        // This would typically fetch and display paper details
+        alert('Paper ID: ' + paperId + '\nDetailed view functionality would be implemented here.');
+    }
+</script>
+{% endblock %}

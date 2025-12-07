@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="margin-bottom: 2rem; color: var(--air-force-blue);">Admin Panel</h1>
+
+<div style="margin-bottom: 3rem;">
+    <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+        Pending Approval ({{ pending_papers|length }})
+    </h2>
+    
+    {% if pending_papers %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Course</th>
+                        <th>University</th>
+                        <th>Year</th>
+                        <th>Uploader</th>
+                        <th>Upload Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paper in pending_papers %}
+                        <tr>
+                            <td>{{ paper.title }}</td>
+                            <td>{{ paper.course_code }} - {{ paper.course_name }}</td>
+                            <td>{{ paper.university }}</td>
+                            <td>{{ paper.year }}</td>
+                            <td>{{ paper.uploader.username }}</td>
+                            <td>{{ paper.upload_date.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <a href="/static/uploads/{{ paper.filename }}" target="_blank" 
+                                   class="btn btn-primary btn-small" style="margin-right: 0.5rem;">View</a>
+                                <a href="/admin/approve/{{ paper.id }}" 
+                                   class="btn btn-success btn-small" style="margin-right: 0.5rem;">Approve</a>
+                                <a href="/admin/reject/{{ paper.id }}" 
+                                   class="btn btn-danger btn-small" 
+                                   onclick="return confirm('Are you sure you want to reject and delete this paper?')">Reject</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 2rem;">
+            <p style="color: var(--medium-gray);">No papers pending approval</p>
+        </div>
+    {% endif %}
+</div>
+
+<div>
+    <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+        Approved Papers ({{ approved_papers|length }})
+    </h2>
+    
+    {% if approved_papers %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Course</th>
+                        <th>University</th>
+                        <th>Year</th>
+                        <th>Downloads</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paper in approved_papers %}
+                        <tr>
+                            <td>{{ paper.title }}</td>
+                            <td>{{ paper.course_code }} - {{ paper.course_name }}</td>
+                            <td>{{ paper.university }}</td>
+                            <td>{{ paper.year }}</td>
+                            <td>{{ paper.downloads }}</td>
+                            <td>
+                                <span style="color: var(--success-green); font-weight: 500;">✓ Approved</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 2rem;">
+            <p style="color: var(--medium-gray);">No approved papers yet</p>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card" style="margin-top: 3rem; background-color: var(--light-gray);">
+    <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Admin Statistics</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div>
+            <p style="font-size: 0.9rem; color: var(--medium-gray);">Total Papers</p>
+            <p style="font-size: 1.5rem; font-weight: 600; color: var(--air-force-blue);">
+                {{ (pending_papers|length + approved_papers|length) }}
+            </p>
+        </div>
+        <div>
+            <p style="font-size: 0.9rem; color: var(--medium-gray);">Pending Review</p>
+            <p style="font-size: 1.5rem; font-weight: 600; color: var(--error-red);">
+                {{ pending_papers|length }}
+            </p>
+        </div>
+        <div>
+            <p style="font-size: 0.9rem; color: var(--medium-gray);">Approved</p>
+            <p style="font-size: 1.5rem; font-weight: 600; color: var(--success-green);">
+                {{ approved_papers|length }}
+            </p>
+        </div>
+        <div>
+            <p style="font-size: 0.9rem; color: var(--medium-gray);">Total Users</p>
+            <p style="font-size: 1.5rem; font-weight: 600; color: var(--air-force-blue);">
+                <!-- This would need a users variable passed from the route -->
+                N/A
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

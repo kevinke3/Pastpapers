@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to UniPapers</h1>
+    <p>Your comprehensive academic resource for university past papers. Browse, upload, and study past exam papers from various universities and courses.</p>
+    <div class="hero-actions">
+        <a href="/browse" class="btn btn-primary">Browse Papers</a>
+        {% if not current_user.is_authenticated %}
+            <a href="/register" class="btn btn-secondary">Join Now</a>
+        {% else %}
+            <a href="/upload" class="btn btn-secondary">Upload Paper</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="features">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--air-force-blue);">Why Choose UniPapers?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="card">
+            <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Extensive Collection</h3>
+            <p>Access thousands of past papers from universities worldwide, covering various courses and academic years.</p>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Quality Verified</h3>
+            <p>All papers are reviewed by administrators to ensure accuracy and quality before being published.</p>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Easy to Use</h3>
+            <p>Simple interface with powerful filtering options to find exactly what you need quickly.</p>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">Community Driven</h3>
+            <p>Contribute to the academic community by uploading papers and helping fellow students.</p>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 4rem; text-align: center; padding: 3rem; background-color: var(--light-gray); border-radius: 12px;">
+    <h2 style="color: var(--air-force-blue); margin-bottom: 1rem;">Ready to Get Started?</h2>
+    <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Join thousands of students who are already using UniPapers to ace their exams.</p>
+    <a href="/register" class="btn btn-primary">Create Free Account</a>
+</div>
+{% endblock %}
