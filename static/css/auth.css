@@ -1,3 +1,4 @@
+/* static/css/auth.css */
 .auth-container {
     min-height: calc(100vh - 200px);
     display: flex;
@@ -63,4 +64,77 @@
     padding: 0.875rem;
     font-size: 1rem;
     margin-top: 0.5rem;
+}
+
+/* Social Auth */
+.social-auth {
+    margin-top: 2rem;
+}
+
+.social-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: var(--medium-gray);
+}
+
+.social-divider::before,
+.social-divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.social-divider span {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+}
+
+.social-buttons {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-gray);
+    background: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-social:hover {
+    background-color: var(--light-gray);
+}
+
+/* Password Requirements */
+.password-requirements {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.password-requirements ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: var(--medium-gray);
+}
+
+.password-requirements li {
+    margin-bottom: 0.25rem;
+}
+
+.password-requirements li.valid {
+    color: var(--success-green);
+}
+
+.password-requirements li.invalid {
+    color: var(--error-red);
 }
