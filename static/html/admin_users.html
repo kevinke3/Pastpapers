@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-header" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 style="color: var(--air-force-blue);">User Management</h1>
+            <p style="color: var(--medium-gray);">Manage user accounts and permissions</p>
+        </div>
+        <a href="/admin/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="color: var(--air-force-blue); margin: 0;">All Users ({{ users|length }})</h2>
+        <div style="display: flex; gap: 1rem;">
+            <input type="text" id="searchUsers" class="form-control" placeholder="Search users..." style="width: 300px;">
+            <button onclick="searchUsers()" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table id="usersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Joined</th>
+                    <th>Last Login</th>
+                    <th>Papers</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr id="user-{{ user.id }}" style="{% if not user.is_active %}opacity: 0.6; background-color: #f8f9fa;{% endif %}">
+                        <td>{{ user.id }}</td>
+                        <td>
+                            <strong style="color: var(--air-force-blue);">{{ user.username }}</strong>
+                            {% if user.id == current_user.id %}<span style="color: #6f42c1; font-size: 0.8rem;"> (You)</span>{% endif %}
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <span class="badge" style="
+                                background-color: {% if user.is_admin %}#6f42c1{% else %}#17a2b8{% endif %};
+                                color: white;
+                                padding: 0.25rem 0.5rem;
+                                border-radius: 4px;
+                                font-size: 0.85rem;
+                            ">
+                                {% if user.is_admin %}Admin{% else %}User{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge" style="
+                                background-color: {% if user.is_active %}#28a745{% else %}#dc3545{% endif %};
+                                color: white;
+                                padding: 0.25rem 0.5rem;
+                                border-radius: 4px;
+                                font-size: 0.85rem;
+                            ">
+                                {% if user.is_active %}Active{% else %}Inactive{% endif %}
+                            </span>
+                        </td>
+                        <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            {% if user.last_login %}
+                                {{ user.last_login.strftime('%Y-%m-%d') }}
+                            {% else %}
+                                Never
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span style="color: var(--air-force-blue); font-weight: 600;">{{ user.papers|length }}</span>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                {% if user.id != current_user.id %}
+                                    <a href="/admin/users/toggle_active/{{ user.id }}" 
+                                       class="btn btn-sm {% if user.is_active %}btn-warning{% else %}btn-success{% endif %}"
+                                       style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                        {% if user.is_active %}Deactivate{% else %}Activate{% endif %}
+                                    </a>
+                                    
+                                    <a href="/admin/users/toggle_admin/{{ user.id }}" 
+                                       class="btn btn-sm {% if user.is_admin %}btn-secondary{% else %}btn-primary{% endif %}"
+                                       style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                        {% if user.is_admin %}Remove Admin{% else %}Make Admin{% endif %}
+                                    </a>
+                                    
+                                    <a href="/admin/users/delete/{{ user.id }}" 
+                                       class="btn btn-sm btn-danger"
+                                       style="padding: 0.25rem 0.5rem; font-size: 0.8rem;"
+                                       onclick="return confirm('Are you sure you want to delete this user? This will also delete all their uploaded papers.')">
+                                        Delete
+                                    </a>
+                                {% else %}
+                                    <span style="color: var(--medium-gray); font-size: 0.9rem;">Current user</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">User Statistics</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div style="text-align: center; padding: 1rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 0.9rem; color: var(--medium-gray);">Total Users</div>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--air-force-blue);">{{ users|length }}</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 0.9rem; color: var(--medium-gray);">Admins</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #6f42c1;">
+                {{ users|selectattr('is_admin')|list|length }}
+            </div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 0.9rem; color: var(--medium-gray);">Active Users</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">
+                {{ users|selectattr('is_active')|list|length }}
+            </div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: var(--light-gray); border-radius: 8px;">
+            <div style="font-size: 0.9rem; color: var(--medium-gray);">Inactive Users</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #dc3545;">
+                {{ users|rejectattr('is_active')|list|length }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function searchUsers() {
+        const searchTerm = document.getElementById('searchUsers').value.toLowerCase();
+        const rows = document.querySelectorAll('#usersTable tbody tr');
+        
+        rows.forEach(row => {
+            const username = row.cells[1].textContent.toLowerCase();
+            const email = row.cells[2].textContent.toLowerCase();
+            
+            if (username.includes(searchTerm) || email.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+    
+    // Search as you type
+    document.getElementById('searchUsers').addEventListener('input', searchUsers);
+</script>
+{% endblock %}
