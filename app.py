@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import func, desc
 from config import Config
 
-app = Flask(__name__, static_folder='static', template_folder='static/html')
+app = Flask(__name__, static_folder='static', template_folder='templates/html')
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)
