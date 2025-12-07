@@ -14,15 +14,15 @@
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                 <div class="form-group">
-                    <label for="course_code" class="form-label">Course Code*</label>
+                    <label for="course_code" class="form-label">Unit Code*</label>
                     <input type="text" id="course_code" name="course_code" class="form-control" required 
-                           placeholder="e.g., CS101">
+                           placeholder="e.g., DIT 015">
                 </div>
                 
                 <div class="form-group">
-                    <label for="course_name" class="form-label">Course Name*</label>
+                    <label for="course_name" class="form-label">Unit Name*</label>
                     <input type="text" id="course_name" name="course_name" class="form-control" required 
-                           placeholder="e.g., Introduction to Computer Science">
+                           placeholder="e.g., Introduction to Programming Technology">
                 </div>
             </div>
             
@@ -37,7 +37,7 @@
                     <label for="year" class="form-label">Year*</label>
                     <select id="year" name="year" class="form-control form-select" required>
                         <option value="">Select Year</option>
-                        {% for year in range(2025, 2009, -1) %}
+                        {% for year in range(2025, 2005, -1) %}
                             <option value="{{ year }}">{{ year }}</option>
                         {% endfor %}
                     </select>

@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-header" style="margin-bottom: 2rem;">
+    <h1 style="color: var(--air-force-blue);">Admin Dashboard</h1>
+    <p style="color: var(--medium-gray);">Welcome, {{ current_user.username }}! Manage your platform.</p>
+</div>
+
+<div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+    <div class="card" style="border-left: 4px solid var(--air-force-blue);">
+        <h3 style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">Total Users</h3>
+        <p style="font-size: 2rem; font-weight: 700; color: var(--air-force-blue);">{{ total_users }}</p>
+        <p style="color: var(--medium-gray); font-size: 0.9rem;">Registered users</p>
+    </div>
+    
+    <div class="card" style="border-left: 4px solid #28a745;">
+        <h3 style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">Total Papers</h3>
+        <p style="font-size: 2rem; font-weight: 700; color: #28a745;">{{ total_papers }}</p>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+            <span style="color: #28a745;">{{ approved_papers }} approved</span>
+            <span style="color: #dc3545;">{{ pending_papers }} pending</span>
+        </div>
+    </div>
+    
+    <div class="card" style="border-left: 4px solid #ffc107;">
+        <h3 style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">Total Downloads</h3>
+        <p style="font-size: 2rem; font-weight: 700; color: #ffc107;">{{ total_downloads }}</p>
+        <p style="color: var(--medium-gray); font-size: 0.9rem;">All-time downloads</p>
+    </div>
+    
+    <div class="card" style="border-left: 4px solid #6f42c1;">
+        <h3 style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">Storage Used</h3>
+        <p style="font-size: 2rem; font-weight: 700; color: #6f42c1;">
+            {% set total_size = namespace(value=0) %}
+            {% for paper in recent_papers %}
+                {% set total_size.value = total_size.value + 1 %}
+            {% endfor %}
+            {{ total_papers }} files
+        </p>
+        <p style="color: var(--medium-gray); font-size: 0.9rem;">PDF documents</p>
+    </div>
+</div>
+
+<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+    <!-- Quick Actions -->
+    <div class="card">
+        <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+            Quick Actions
+        </h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <a href="/admin/papers?status=pending" class="btn btn-primary" style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📋</div>
+                Review Papers
+                <div style="font-size: 0.9rem; opacity: 0.8;">{{ pending_papers }} pending</div>
+            </a>
+            <a href="/admin/users" class="btn btn-secondary" style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">👥</div>
+                Manage Users
+                <div style="font-size: 0.9rem; opacity: 0.8;">{{ total_users }} users</div>
+            </a>
+            <a href="/admin/papers" class="btn btn-success" style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
+                All Papers
+                <div style="font-size: 0.9rem; opacity: 0.8;">{{ total_papers }} total</div>
+            </a>
+            <a href="/admin/settings" class="btn btn-danger" style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+                Settings
+                <div style="font-size: 0.9rem; opacity: 0.8;">Admin settings</div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="card">
+        <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+            Recent Papers
+        </h2>
+        <div style="max-height: 300px; overflow-y: auto;">
+            {% if recent_papers %}
+                {% for paper in recent_papers %}
+                    <div style="padding: 0.75rem; border-bottom: 1px solid var(--border-gray); {% if not loop.last %}margin-bottom: 0.5rem;{% endif %}">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <strong style="color: var(--air-force-blue);">{{ paper.course_code }}</strong>
+                            <span style="font-size: 0.9rem; color: var(--medium-gray);">
+                                {{ paper.upload_date.strftime('%Y-%m-%d') }}
+                            </span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 0.25rem;">
+                            {{ paper.title }}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                            <span style="color: var(--medium-gray);">{{ paper.university }}</span>
+                            <span style="color: {% if paper.is_approved %}#28a745{% else %}#dc3545{% endif %};">
+                                {% if paper.is_approved %}✓ Approved{% else %}⏳ Pending{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--medium-gray); text-align: center; padding: 2rem;">No papers uploaded yet</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 2rem;">
+    <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+        Top Universities
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        {% if top_universities %}
+            {% for uni in top_universities %}
+                <div style="padding: 1rem; background-color: var(--light-gray); border-radius: 8px;">
+                    <div style="font-weight: 600; color: var(--air-force-blue); margin-bottom: 0.5rem;">{{ uni[0] }}</div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="color: var(--medium-gray); font-size: 0.9rem;">{{ uni[1] }} papers</span>
+                        <span style="font-size: 0.9rem; color: var(--air-force-blue);">
+                            {{ ((uni[1] / approved_papers) * 100)|round(1) if approved_papers > 0 else 0 }}%
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: var(--medium-gray); text-align: center; padding: 1rem; grid-column: 1 / -1;">
+                No university data available
+            </p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+    <!-- Recent Users -->
+    <div class="card">
+        <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+            Recent Users
+        </h2>
+        <div style="max-height: 300px; overflow-y: auto;">
+            {% if recent_users %}
+                {% for user in recent_users %}
+                    <div style="padding: 0.75rem; border-bottom: 1px solid var(--border-gray); {% if not loop.last %}margin-bottom: 0.5rem;{% endif %}">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <strong style="color: var(--air-force-blue);">{{ user.username }}</strong>
+                            <span style="font-size: 0.9rem; color: var(--medium-gray);">
+                                {{ user.created_at.strftime('%Y-%m-%d') }}
+                            </span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--medium-gray); margin-bottom: 0.25rem;">
+                            {{ user.email }}
+                        </div>
+                        <div style="display: flex; gap: 1rem; font-size: 0.85rem;">
+                            <span style="color: {% if user.is_admin %}#6f42c1{% else %}#28a745{% endif %};">
+                                {% if user.is_admin %}👑 Admin{% else %}👤 User{% endif %}
+                            </span>
+                            <span style="color: {% if user.is_active %}#28a745{% else %}#dc3545{% endif %};">
+                                {% if user.is_active %}✓ Active{% else %}✗ Inactive{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--medium-gray); text-align: center; padding: 2rem;">No users registered yet</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- System Info -->
+    <div class="card">
+        <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-gray);">
+            System Information
+        </h2>
+        <div style="display: grid; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray); margin-bottom: 0.25rem;">Platform Version</div>
+                <div style="font-weight: 600; color: var(--dark-gray);">UniPapers v1.0.0</div>
+            </div>
+            <div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray); margin-bottom: 0.25rem;">Database</div>
+                <div style="font-weight: 600; color: var(--dark-gray);">SQLite</div>
+            </div>
+            <div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray); margin-bottom: 0.25rem;">Uptime</div>
+                <div style="font-weight: 600; color: var(--dark-gray);">Running</div>
+            </div>
+            <div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray); margin-bottom: 0.25rem;">Last Backup</div>
+                <div style="font-weight: 600; color: var(--dark-gray);">Not configured</div>
+            </div>
+        </div>
+        <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-gray);">
+            <a href="/admin/logs" class="btn btn-secondary" style="width: 100%;">View System Logs</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-refresh stats every 30 seconds
+    setInterval(() => {
+        fetch('/api/admin/stats')
+            .then(response => response.json())
+            .then(data => {
+                // Update stats on the page
+                document.querySelectorAll('.dashboard-stats .card')[0].querySelector('p:nth-child(2)').textContent = data.total_users;
+                document.querySelectorAll('.dashboard-stats .card')[1].querySelector('p:nth-child(2)').textContent = data.total_papers;
+                const approvedSpan = document.querySelectorAll('.dashboard-stats .card')[1].querySelector('span:nth-child(1)');
+                const pendingSpan = document.querySelectorAll('.dashboard-stats .card')[1].querySelector('span:nth-child(2)');
+                approvedSpan.textContent = `${data.approved_papers} approved`;
+                pendingSpan.textContent = `${data.pending_papers} pending`;
+                document.querySelectorAll('.dashboard-stats .card')[2].querySelector('p:nth-child(2)').textContent = data.total_downloads;
+            });
+    }, 30000);
+</script>
+{% endblock %}
