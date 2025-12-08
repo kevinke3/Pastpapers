@@ -5,7 +5,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
             <h1 style="color: var(--air-force-blue);">System Logs</h1>
-            <p style="color: var(--medium-gray);">View system activity and logs</p>
+            <p style="color: var(--medium-gray);">Real-time system activity monitoring</p>
         </div>
         <a href="/admin/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
     </div>
@@ -13,148 +13,642 @@
 
 <div class="card" style="margin-bottom: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-        <h2 style="color: var(--air-force-blue); margin: 0;">Activity Log</h2>
-        <div style="display: flex; gap: 1rem;">
-            <select id="logLevel" class="form-control form-select" style="width: 150px;">
-                <option value="all">All Levels</option>
-                <option value="info">Info</option>
-                <option value="warning">Warning</option>
-                <option value="error">Error</option>
-            </select>
-            <button onclick="filterLogs()" class="btn btn-primary">Filter</button>
-            <button onclick="refreshLogs()" class="btn btn-secondary">Refresh</button>
+        <h2 style="color: var(--air-force-blue); margin: 0;">Live Log Stream</h2>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <div class="badge badge-info" id="connectionStatus">🟡 Connecting...</div>
+            <button onclick="toggleAutoScroll()" class="btn btn-sm btn-secondary" id="autoScrollBtn">
+                📍 Auto-scroll: ON
+            </button>
+            <button onclick="clearLogs()" class="btn btn-sm btn-danger">
+                🗑️ Clear View
+            </button>
         </div>
     </div>
     
-    <div style="max-height: 500px; overflow-y: auto; border: 1px solid var(--border-gray); border-radius: 8px;">
-        <div style="padding: 1rem; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem;">
-            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
-                [2024-01-15 10:30:15] INFO: Admin '{{ current_user.username }}' logged in
+    <div class="filters" style="margin-bottom: 1.5rem;">
+        <div class="filter-grid">
+            <div>
+                <label class="form-label">Log Level</label>
+                <select id="logLevel" class="form-control form-select" onchange="filterLogs()">
+                    <option value="all">All Levels</option>
+                    <option value="info">Info</option>
+                    <option value="warning">Warning</option>
+                    <option value="error">Error</option>
+                    <option value="critical">Critical</option>
+                </select>
             </div>
-            <div style="margin-bottom: 0.5rem; color: #17a2b8;">
-                [2024-01-15 10:25:42] INFO: New user 'student123' registered
+            <div>
+                <label class="form-label">Module</label>
+                <select id="logModule" class="form-control form-select" onchange="filterLogs()">
+                    <option value="">All Modules</option>
+                    <option value="Auth">Auth</option>
+                    <option value="Upload">Upload</option>
+                    <option value="Admin">Admin</option>
+                    <option value="System">System</option>
+                    <option value="User">User</option>
+                </select>
             </div>
-            <div style="margin-bottom: 0.5rem; color: #28a745;">
-                [2024-01-15 10:20:18] INFO: Paper 'CS101 Final Exam 2023' approved by admin
+            <div>
+                <label class="form-label">Search</label>
+                <input type="text" id="logSearch" class="form-control" placeholder="Search logs..." 
+                       oninput="debounceFilter()">
             </div>
-            <div style="margin-bottom: 0.5rem; color: #ffc107;">
-                [2024-01-15 10:15:33] WARNING: Paper 'MATH201 Midterm' rejected - Low quality scan
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #dc3545;">
-                [2024-01-15 10:10:05] ERROR: Failed to process upload from user 'user456'
-            </div>
-            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
-                [2024-01-15 10:05:21] INFO: User 'professorX' uploaded paper 'PHYS101 Lab Exam'
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #28a745;">
-                [2024-01-15 10:00:12] INFO: System backup completed successfully
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #17a2b8;">
-                [2024-01-15 09:55:47] INFO: 5 new papers uploaded in the last hour
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #ffc107;">
-                [2024-01-15 09:50:33] WARNING: Storage usage at 85% - Consider cleanup
-            </div>
-            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
-                [2024-01-15 09:45:19] INFO: Database optimization completed
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #28a745;">
-                [2024-01-15 09:40:05] INFO: 42 papers downloaded today
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #dc3545;">
-                [2024-01-15 09:35:51] ERROR: Email service temporarily unavailable
-            </div>
-            <div style="margin-bottom: 0.5rem; color: var(--medium-gray);">
-                [2024-01-15 09:30:37] INFO: User 'admin' modified settings
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #17a2b8;">
-                [2024-01-15 09:25:23] INFO: New university 'Stanford University' added to system
-            </div>
-            <div style="margin-bottom: 0.5rem; color: #ffc107;">
-                [2024-01-15 09:20:09] WARNING: Suspicious activity detected from IP 192.168.1.100
+            <div>
+                <label class="form-label">Date Range</label>
+                <input type="date" id="startDate" class="form-control" onchange="filterLogs()">
             </div>
         </div>
     </div>
     
-    <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; color: var(--medium-gray); font-size: 0.9rem;">
-        <div>Showing 15 log entries</div>
-        <div>Last updated: {{ current_time.strftime('%Y-%m-%d %H:%M:%S') if current_time else 'Just now' }}</div>
+    <div id="logsContainer" style="max-height: 600px; overflow-y: auto; border: 1px solid var(--border-gray); border-radius: 8px; background-color: #1a1a1a; color: #f0f0f0; font-family: 'Monaco', 'Menlo', 'Courier New', monospace; font-size: 0.85rem;">
+        <div id="logEntries" style="padding: 1rem;">
+            <!-- Log entries will be inserted here -->
+            <div style="color: #666; text-align: center; padding: 2rem;">
+                <div>📊 Connecting to log stream...</div>
+                <div style="font-size: 0.8rem; margin-top: 0.5rem;">Loading real-time system logs</div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; color: var(--medium-gray); font-size: 0.9rem;">
+        <div>
+            <span id="logCount">0</span> log entries
+            <span id="filteredCount" style="margin-left: 1rem;"></span>
+        </div>
+        <div id="lastUpdate">Last update: --:--:--</div>
     </div>
 </div>
 
-<div class="card">
-    <h2 style="color: var(--air-force-blue); margin-bottom: 1.5rem;">Log Management</h2>
+<div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+    <div class="card">
+        <h3 style="color: var(--air-force-blue); margin-bottom: 1.5rem;">Log Statistics</h3>
+        <div id="logStats" style="display: grid; gap: 1rem;">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 700; color: var(--air-force-blue);" id="totalLogs">0</div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray);">Total Logs</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 700; color: var(--success-green);" id="todayLogs">0</div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray);">Today</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 700; color: var(--error-red);" id="errorLogs">0</div>
+                <div style="font-size: 0.9rem; color: var(--medium-gray);">Errors</div>
+            </div>
+        </div>
+        <button onclick="loadLogStats()" class="btn btn-secondary" style="width: 100%; margin-top: 1.5rem;">
+            🔄 Refresh Stats
+        </button>
+    </div>
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-        <div style="padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
-            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Log Rotation</h4>
-            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">
-                Configure automatic log rotation and retention policies
-            </p>
-            <button class="btn btn-primary" disabled>Configure</button>
+    <div class="card">
+        <h3 style="color: var(--air-force-blue); margin-bottom: 1.5rem;">Recent Activity</h3>
+        <div id="recentActivity" style="max-height: 250px; overflow-y: auto;">
+            <div style="color: var(--medium-gray); text-align: center; padding: 2rem;">
+                Loading activity data...
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h3 style="color: var(--air-force-blue); margin-bottom: 1.5rem;">Log Management</h3>
+        <div style="display: grid; gap: 1rem;">
+            <div>
+                <button onclick="exportLogs()" class="btn btn-success" style="width: 100%;">
+                    📥 Export Logs (JSON)
+                </button>
+            </div>
+            <div>
+                <button onclick="exportLogsCSV()" class="btn btn-info" style="width: 100%;">
+                    📊 Export Logs (CSV)
+                </button>
+            </div>
+            <div>
+                <button onclick="showClearLogsModal()" class="btn btn-danger" style="width: 100%;">
+                    🗑️ Clear All Logs
+                </button>
+            </div>
         </div>
         
-        <div style="padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
-            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Export Logs</h4>
-            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">
-                Export system logs for analysis or archival purposes
-            </p>
-            <button class="btn btn-success" disabled>Export CSV</button>
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-gray);">
+            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">System Information</h4>
+            <div style="font-size: 0.9rem; color: var(--medium-gray);">
+                <div>Log file: <code>logs/unipapers.log</code></div>
+                <div>Log retention: 10 files × 10MB each</div>
+                <div>Database logs: {{ SystemLog.query.count() if SystemLog else 0 }} entries</div>
+            </div>
         </div>
-        
-        <div style="padding: 1.5rem; background-color: var(--light-gray); border-radius: 8px;">
-            <h4 style="color: var(--air-force-blue); margin-bottom: 0.5rem;">Clear Logs</h4>
-            <p style="color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 1rem;">
-                Clear all log entries (older than specified period)
-            </p>
-            <button class="btn btn-danger" disabled>Clear All</button>
+    </div>
+</div>
+
+<!-- Clear Logs Modal -->
+<div id="clearLogsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3 style="color: var(--air-force-blue); margin-bottom: 1rem;">⚠️ Clear All Logs</h3>
+        <p style="color: var(--medium-gray); margin-bottom: 1.5rem;">
+            This will permanently delete all log entries from the database. This action cannot be undone.
+            Log files will not be affected.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+            <button onclick="hideClearLogsModal()" class="btn btn-secondary">Cancel</button>
+            <button onclick="confirmClearLogs()" class="btn btn-danger">Clear All Logs</button>
         </div>
     </div>
 </div>
 
 <script>
-    function filterLogs() {
-        const level = document.getElementById('logLevel').value;
-        const logEntries = document.querySelectorAll('.card > div > div > div');
+    // Configuration
+    const config = {
+        autoScroll: true,
+        maxLogs: 1000,
+        logLevels: {
+            'INFO': { color: '#17a2b8', icon: 'ℹ️' },
+            'WARNING': { color: '#ffc107', icon: '⚠️' },
+            'ERROR': { color: '#dc3545', icon: '❌' },
+            'CRITICAL': { color: '#721c24', icon: '🔥' }
+        },
+        modules: {
+            'Auth': { color: '#6f42c1' },
+            'Upload': { color: '#28a745' },
+            'Admin': { color: '#00308F' },
+            'System': { color: '#fd7e14' },
+            'User': { color: '#20c997' }
+        }
+    };
+    
+    // State management
+    let state = {
+        logs: [],
+        filteredLogs: [],
+        eventSource: null,
+        logStats: {},
+        autoScroll: true,
+        debounceTimer: null
+    };
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        loadLogStats();
+        loadRecentActivity();
+        connectToLogStream();
+        updateLogCount();
         
-        logEntries.forEach(entry => {
-            const logText = entry.textContent.toLowerCase();
+        // Set today's date as default
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').value = today;
+    });
+    
+    // WebSocket/SSE connection
+    function connectToLogStream() {
+        if (state.eventSource) {
+            state.eventSource.close();
+        }
+        
+        const statusElem = document.getElementById('connectionStatus');
+        statusElem.textContent = '🟡 Connecting...';
+        statusElem.className = 'badge badge-warning';
+        
+        state.eventSource = new EventSource('/api/admin/logs/stream');
+        
+        state.eventSource.onopen = function() {
+            statusElem.textContent = '🟢 Connected';
+            statusElem.className = 'badge badge-success';
+            console.log('Log stream connected');
+        };
+        
+        state.eventSource.onmessage = function(event) {
+            const log = JSON.parse(event.data);
+            addLogEntry(log);
+            updateLastUpdate();
+        };
+        
+        state.eventSource.onerror = function(error) {
+            statusElem.textContent = '🔴 Disconnected';
+            statusElem.className = 'badge badge-danger';
+            console.error('Log stream error:', error);
             
-            if (level === 'all') {
-                entry.style.display = 'block';
-            } else if (logText.includes(`[${level}]`)) {
-                entry.style.display = 'block';
-            } else {
-                entry.style.display = 'none';
+            // Attempt to reconnect after 5 seconds
+            setTimeout(() => {
+                if (!state.eventSource || state.eventSource.readyState === EventSource.CLOSED) {
+                    connectToLogStream();
+                }
+            }, 5000);
+        };
+    }
+    
+    // Add log entry to display
+    function addLogEntry(log) {
+        state.logs.unshift(log);
+        
+        // Keep only maxLogs entries
+        if (state.logs.length > config.maxLogs) {
+            state.logs.pop();
+        }
+        
+        // Check if log matches current filters
+        if (matchesFilters(log)) {
+            state.filteredLogs.unshift(log);
+            const logElement = createLogElement(log);
+            const container = document.getElementById('logEntries');
+            
+            if (container.firstChild && container.firstChild.className === 'no-logs') {
+                container.innerHTML = '';
             }
+            
+            container.insertBefore(logElement, container.firstChild);
+            
+            // Keep only maxLogs filtered entries
+            if (state.filteredLogs.length > config.maxLogs) {
+                state.filteredLogs.pop();
+                if (container.children.length > config.maxLogs) {
+                    container.removeChild(container.lastChild);
+                }
+            }
+            
+            // Auto-scroll to top if enabled
+            if (state.autoScroll) {
+                const logsContainer = document.getElementById('logsContainer');
+                logsContainer.scrollTop = 0;
+            }
+            
+            updateLogCount();
+        }
+    }
+    
+    // Create log element
+    function createLogElement(log) {
+        const levelConfig = config.logLevels[log.level] || config.logLevels.INFO;
+        const moduleConfig = config.modules[log.module] || { color: '#666' };
+        
+        const element = document.createElement('div');
+        element.className = 'log-entry';
+        element.style.cssText = `
+            padding: 0.5rem;
+            border-bottom: 1px solid #333;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        `;
+        
+        const time = new Date(log.timestamp).toLocaleTimeString();
+        
+        element.innerHTML = `
+            <div style="display: flex; align-items: center; margin-bottom: 0.25rem;">
+                <span style="color: ${levelConfig.color}; font-weight: bold; margin-right: 0.5rem;">
+                    ${levelConfig.icon} ${log.level}
+                </span>
+                <span style="background-color: ${moduleConfig.color}; color: white; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.75rem; margin-right: 0.5rem;">
+                    ${log.module}
+                </span>
+                <span style="color: #aaa; font-size: 0.8rem;">${time}</span>
+                <span style="margin-left: auto; color: #666; font-size: 0.8rem;">
+                    👤 ${log.username || 'System'}
+                </span>
+            </div>
+            <div style="color: #f0f0f0; word-break: break-word;">
+                ${escapeHtml(log.message)}
+            </div>
+        `;
+        
+        return element;
+    }
+    
+    // Filter logs
+    function filterLogs() {
+        const levelFilter = document.getElementById('logLevel').value;
+        const moduleFilter = document.getElementById('logModule').value;
+        const searchFilter = document.getElementById('logSearch').value.toLowerCase();
+        
+        state.filteredLogs = state.logs.filter(log => {
+            // Level filter
+            if (levelFilter && levelFilter !== 'all' && log.level.toLowerCase() !== levelFilter) {
+                return false;
+            }
+            
+            // Module filter
+            if (moduleFilter && log.module !== moduleFilter) {
+                return false;
+            }
+            
+            // Search filter
+            if (searchFilter && 
+                !log.message.toLowerCase().includes(searchFilter) &&
+                !log.module.toLowerCase().includes(searchFilter)) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        renderFilteredLogs();
+        updateLogCount();
+    }
+    
+    // Debounced filter for search input
+    function debounceFilter() {
+        clearTimeout(state.debounceTimer);
+        state.debounceTimer = setTimeout(filterLogs, 300);
+    }
+    
+    // Render filtered logs
+    function renderFilteredLogs() {
+        const container = document.getElementById('logEntries');
+        container.innerHTML = '';
+        
+        if (state.filteredLogs.length === 0) {
+            container.innerHTML = `
+                <div class="no-logs" style="color: #666; text-align: center; padding: 2rem;">
+                    No logs match the current filters
+                </div>
+            `;
+            return;
+        }
+        
+        state.filteredLogs.forEach(log => {
+            container.appendChild(createLogElement(log));
         });
     }
     
-    function refreshLogs() {
-        // In a real application, this would fetch new logs from the server
-        alert('Log refresh would fetch new entries from the server. This is a demo.');
+    // Check if log matches filters
+    function matchesFilters(log) {
+        const levelFilter = document.getElementById('logLevel').value;
+        const moduleFilter = document.getElementById('logModule').value;
+        const searchFilter = document.getElementById('logSearch').value.toLowerCase();
+        
+        // Level filter
+        if (levelFilter && levelFilter !== 'all' && log.level.toLowerCase() !== levelFilter) {
+            return false;
+        }
+        
+        // Module filter
+        if (moduleFilter && log.module !== moduleFilter) {
+            return false;
+        }
+        
+        // Search filter
+        if (searchFilter && 
+            !log.message.toLowerCase().includes(searchFilter) &&
+            !log.module.toLowerCase().includes(searchFilter)) {
+            return false;
+        }
+        
+        return true;
     }
     
-    // Auto-refresh logs every 30 seconds
-    setInterval(refreshLogs, 30000);
+    // Load log statistics
+    async function loadLogStats() {
+        try {
+            const response = await fetch('/api/admin/logs/stats');
+            const stats = await response.json();
+            state.logStats = stats;
+            
+            // Update UI
+            document.getElementById('totalLogs').textContent = stats.total_logs.toLocaleString();
+            document.getElementById('todayLogs').textContent = stats.today_logs.toLocaleString();
+            document.getElementById('errorLogs').textContent = stats.error_logs.toLocaleString();
+        } catch (error) {
+            console.error('Failed to load log stats:', error);
+        }
+    }
+    
+    // Load recent activity
+    async function loadRecentActivity() {
+        try {
+            const response = await fetch('/api/admin/logs/stats');
+            const stats = await response.json();
+            
+            const container = document.getElementById('recentActivity');
+            container.innerHTML = '';
+            
+            if (stats.recent_activity && stats.recent_activity.length > 0) {
+                stats.recent_activity.forEach(item => {
+                    const div = document.createElement('div');
+                    div.style.cssText = `
+                        padding: 0.75rem;
+                        border-bottom: 1px solid var(--border-gray);
+                    `;
+                    div.innerHTML = `
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong style="color: var(--air-force-blue);">${item.module}</strong>
+                            <span style="color: var(--medium-gray);">${item.count} logs</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--medium-gray); margin-top: 0.25rem;">
+                            Last 24 hours
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                container.innerHTML = `
+                    <div style="color: var(--medium-gray); text-align: center; padding: 2rem;">
+                        No recent activity
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Failed to load recent activity:', error);
+        }
+    }
+    
+    // Update log count display
+    function updateLogCount() {
+        document.getElementById('logCount').textContent = state.logs.length.toLocaleString();
+        
+        const filteredCount = state.filteredLogs.length;
+        const filteredElem = document.getElementById('filteredCount');
+        
+        if (filteredCount !== state.logs.length) {
+            filteredElem.textContent = `(${filteredCount.toLocaleString()} filtered)`;
+            filteredElem.style.display = 'inline';
+        } else {
+            filteredElem.style.display = 'none';
+        }
+    }
+    
+    // Update last update time
+    function updateLastUpdate() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+        document.getElementById('lastUpdate').textContent = `Last update: ${timeString}`;
+    }
+    
+    // Toggle auto-scroll
+    function toggleAutoScroll() {
+        state.autoScroll = !state.autoScroll;
+        const btn = document.getElementById('autoScrollBtn');
+        btn.textContent = `📍 Auto-scroll: ${state.autoScroll ? 'ON' : 'OFF'}`;
+        btn.className = state.autoScroll ? 'btn btn-sm btn-success' : 'btn btn-sm btn-secondary';
+    }
+    
+    // Clear logs from view
+    function clearLogs() {
+        if (confirm('Clear all logs from view? This does not delete logs from the database.')) {
+            state.logs = [];
+            state.filteredLogs = [];
+            renderFilteredLogs();
+            updateLogCount();
+        }
+    }
+    
+    // Export logs as JSON
+    async function exportLogs() {
+        try {
+            const response = await fetch('/api/admin/logs?per_page=10000');
+            const data = await response.json();
+            
+            const blob = new Blob([JSON.stringify(data.logs, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `unipapers-logs-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Failed to export logs:', error);
+            alert('Failed to export logs');
+        }
+    }
+    
+    // Export logs as CSV
+    async function exportLogsCSV() {
+        try {
+            const response = await fetch('/api/admin/logs?per_page=10000');
+            const data = await response.json();
+            
+            // Convert to CSV
+            const headers = ['Timestamp', 'Level', 'Module', 'Username', 'Message'];
+            const rows = data.logs.map(log => [
+                log.timestamp,
+                log.level,
+                log.module,
+                log.username,
+                `"${log.message.replace(/"/g, '""')}"`
+            ]);
+            
+            const csvContent = [
+                headers.join(','),
+                ...rows.map(row => row.join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `unipapers-logs-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Failed to export logs as CSV:', error);
+            alert('Failed to export logs');
+        }
+    }
+    
+    // Clear logs modal functions
+    function showClearLogsModal() {
+        document.getElementById('clearLogsModal').style.display = 'flex';
+    }
+    
+    function hideClearLogsModal() {
+        document.getElementById('clearLogsModal').style.display = 'none';
+    }
+    
+    async function confirmClearLogs() {
+        if (!confirm('⚠️ WARNING: This will permanently delete ALL log entries from the database. This action cannot be undone. Continue?')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/admin/logs/clear', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            if (response.ok) {
+                alert('All logs have been cleared from the database.');
+                state.logs = [];
+                state.filteredLogs = [];
+                renderFilteredLogs();
+                updateLogCount();
+                loadLogStats();
+                hideClearLogsModal();
+            } else {
+                throw new Error('Failed to clear logs');
+            }
+        } catch (error) {
+            console.error('Failed to clear logs:', error);
+            alert('Failed to clear logs from database');
+        }
+    }
+    
+    // Utility function to escape HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Clean up on page unload
+    window.addEventListener('beforeunload', function() {
+        if (state.eventSource) {
+            state.eventSource.close();
+        }
+    });
 </script>
 
 <style>
-    /* Add some styles for log levels */
-    .card > div > div > div[style*="color: #17a2b8"]:before {
-        content: "ℹ️ ";
+    /* Modal backdrop */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
-    .card > div > div > div[style*="color: #28a745"]:before {
-        content: "✅ ";
+    /* Log entry animations */
+    .log-entry {
+        animation: fadeIn 0.3s ease-in;
     }
     
-    .card > div > div > div[style*="color: #ffc107"]:before {
-        content: "⚠️ ";
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
-    .card > div > div > div[style*="color: #dc3545"]:before {
-        content: "❌ ";
+    /* Custom scrollbar for logs container */
+    #logsContainer::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    #logsContainer::-webkit-scrollbar-track {
+        background: #2a2a2a;
+        border-radius: 4px;
+    }
+    
+    #logsContainer::-webkit-scrollbar-thumb {
+        background: #555;
+        border-radius: 4px;
+    }
+    
+    #logsContainer::-webkit-scrollbar-thumb:hover {
+        background: #777;
+    }
+    
+    /* Highlight matching search text */
+    .log-entry.highlight {
+        background-color: rgba(255, 255, 0, 0.1);
+        border-left: 3px solid #ffc107;
     }
 </style>
 {% endblock %}

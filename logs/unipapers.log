@@ -1,0 +1,112 @@
+2025-12-08 11:42:13,454 - System - INFO - Application initialized and admin user created
+2025-12-08 11:42:13,459 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-08 11:42:13,459 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-08 11:42:13,460 - werkzeug - INFO -  * Restarting with stat
+2025-12-08 11:42:13,918 - System - INFO - Application initialized and admin user created
+2025-12-08 11:42:13,921 - werkzeug - WARNING -  * Debugger is active!
+2025-12-08 11:42:13,929 - werkzeug - INFO -  * Debugger PIN: 957-911-045
+2025-12-08 11:42:16,220 - System - INFO - Homepage accessed
+2025-12-08 11:42:16,231 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:16] "GET / HTTP/1.1" 200 -
+2025-12-08 11:42:16,259 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:42:17,693 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:17] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:42:27,163 - Admin - INFO - Logs page accessed
+2025-12-08 11:42:27,168 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:27] "GET /admin/logs HTTP/1.1" 200 -
+2025-12-08 11:42:27,190 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:42:27,240 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:27] "GET /api/admin/logs/stats HTTP/1.1" 200 -
+2025-12-08 11:42:27,250 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:27] "GET /api/admin/logs/stats HTTP/1.1" 200 -
+2025-12-08 11:42:27,291 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:27] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:30,316 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:30] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:33,346 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:33] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:36,359 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:36] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:39,375 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:39] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:42,397 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:42] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:45,411 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:45] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:48,425 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:48] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:50,354 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:50] "GET /api/admin/logs/stats HTTP/1.1" 200 -
+2025-12-08 11:42:51,443 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:51] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:54,456 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:54] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:42:57,260 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:57] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:42:57,485 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:42:57] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:43:00,500 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:43:00] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:43:00,957 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:43:00] "GET /upload HTTP/1.1" 200 -
+2025-12-08 11:43:00,980 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:43:00] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:43:30,948 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:43:30] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:44:01,001 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:01] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:44:22,676 - Upload - INFO - Paper uploaded: cat1 (DIT 015) by admin
+2025-12-08 11:44:22,677 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:22] "[32mPOST /upload HTTP/1.1[0m" 302 -
+2025-12-08 11:44:22,688 - Browse - INFO - Papers browsed
+2025-12-08 11:44:22,694 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:22] "GET /browse HTTP/1.1" 200 -
+2025-12-08 11:44:22,721 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:44:25,389 - Admin - INFO - Admin dashboard accessed
+2025-12-08 11:44:25,398 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:25] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-12-08 11:44:25,422 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:44:29,574 - Admin - INFO - Paper management accessed
+2025-12-08 11:44:29,587 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:29] "GET /admin/papers?status=pending HTTP/1.1" 200 -
+2025-12-08 11:44:29,605 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:44:38,328 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:38] "GET /static/uploads/Term_paper_assignment.pdf HTTP/1.1" 200 -
+2025-12-08 11:44:48,037 - Admin - INFO - Paper approved: cat1 (ID: 1) by admin
+2025-12-08 11:44:48,038 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:48] "[32mPOST /admin/papers/approve/1 HTTP/1.1[0m" 302 -
+2025-12-08 11:44:48,050 - Admin - INFO - Paper management accessed
+2025-12-08 11:44:48,052 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:48] "GET /admin/papers?status=pending HTTP/1.1" 200 -
+2025-12-08 11:44:48,085 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:44:51,116 - Browse - INFO - Papers browsed
+2025-12-08 11:44:51,118 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:51] "GET /browse HTTP/1.1" 200 -
+2025-12-08 11:44:51,134 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:44:55,118 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:55] "GET /upload HTTP/1.1" 200 -
+2025-12-08 11:44:55,145 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:44:58,456 - Admin - INFO - Admin dashboard accessed
+2025-12-08 11:44:58,459 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:58] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-12-08 11:44:58,483 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:44:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:45:02,540 - Admin - INFO - Admin dashboard accessed
+2025-12-08 11:45:02,541 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:02] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-12-08 11:45:02,569 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:02] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:45:05,475 - Admin - INFO - Logs page accessed
+2025-12-08 11:45:05,477 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:05] "GET /admin/logs HTTP/1.1" 200 -
+2025-12-08 11:45:05,496 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:45:05,520 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:05] "GET /api/admin/logs/stats HTTP/1.1" 200 -
+2025-12-08 11:45:05,529 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:05] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:05,539 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:05] "GET /api/admin/logs/stats HTTP/1.1" 200 -
+2025-12-08 11:45:08,557 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:08] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:11,569 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:11] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:14,574 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:14] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:17,585 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:17] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:20,599 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:20] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:23,616 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:23] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:26,631 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:26] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:29,652 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:29] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:32,665 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:32] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:35,483 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:35] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:45:35,681 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:35] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:38,703 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:38] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:41,733 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:41] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:44,775 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:44] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:47,798 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:47] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:50,834 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:50] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:53,852 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:53] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:56,875 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:56] "GET /api/admin/logs/stream HTTP/1.1" 200 -
+2025-12-08 11:45:59,453 - Admin - INFO - Admin dashboard accessed
+2025-12-08 11:45:59,455 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:59] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-12-08 11:45:59,475 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:45:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:46:01,141 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:46:01] "GET /admin/settings HTTP/1.1" 200 -
+2025-12-08 11:46:01,161 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:46:01] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:46:31,139 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:46:31] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:47:01,356 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:01] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:47:31,147 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:31] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 11:47:40,132 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:40] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:47:40,166 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:40] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-12-08 11:47:54,790 - Admin - INFO - Admin dashboard accessed
+2025-12-08 11:47:54,792 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:54] "GET /admin/dashboard HTTP/1.1" 200 -
+2025-12-08 11:47:54,815 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:54] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-12-08 11:47:54,824 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:47:54] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:48:03,790 - System - INFO - Homepage accessed
+2025-12-08 11:48:03,792 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:03] "GET / HTTP/1.1" 200 -
+2025-12-08 11:48:03,817 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:03] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-12-08 11:48:03,822 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:48:06,699 - Browse - INFO - Papers browsed
+2025-12-08 11:48:06,702 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:06] "GET /browse HTTP/1.1" 200 -
+2025-12-08 11:48:06,726 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:06] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-12-08 11:48:06,735 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 11:48:19,399 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:19] "GET /upload HTTP/1.1" 200 -
+2025-12-08 11:48:19,425 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:19] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-12-08 11:48:19,432 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 11:48:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -

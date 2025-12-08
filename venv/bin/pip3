@@ -1,4 +1,4 @@
-#!/home/kevin/pastpapers_platform/venv/bin/python3
+#!/home/kkipkosgei/Pastpapers/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
