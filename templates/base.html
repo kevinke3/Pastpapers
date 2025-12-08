@@ -5,139 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniPapers - University Past Papers Platform</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Dropdown styles */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .dropdown-toggle {
-            cursor: pointer;
-        }
-        
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: white;
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            z-index: 1000;
-            padding: 0.5rem 0;
-            border: 1px solid var(--border-gray);
-        }
-        
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-        
-        .dropdown-item {
-            display: block;
-            padding: 0.75rem 1rem;
-            color: var(--dark-gray);
-            text-decoration: none;
-            transition: background-color 0.2s;
-            font-size: 0.95rem;
-        }
-        
-        .dropdown-item:hover {
-            background-color: var(--light-gray);
-            color: var(--air-force-blue);
-        }
-        
-        .dropdown-divider {
-            height: 1px;
-            background-color: var(--border-gray);
-            margin: 0.5rem 0;
-        }
-        
-        /* Active state for dropdown items */
-        .dropdown-item.active {
-            background-color: var(--air-force-blue);
-            color: white;
-        }
-        
-        /* Mobile responsiveness for dropdown */
-        @media (max-width: 768px) {
-            .dropdown-menu {
-                position: static;
-                box-shadow: none;
-                border: none;
-                background-color: transparent;
-                padding-left: 1rem;
-            }
-            
-            .dropdown:hover .dropdown-menu {
-                display: none;
-            }
-            
-            .dropdown.active .dropdown-menu {
-                display: block;
-            }
-            
-            .dropdown-item {
-                padding: 0.5rem 0;
-                color: var(--primary-white);
-            }
-            
-            .dropdown-item:hover {
-                background-color: transparent;
-                color: var(--primary-white);
-            }
-        }
-        
-        /* Notification badge */
-        .notification-badge {
-            background-color: #dc3545;
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.1rem 0.4rem;
-            border-radius: 10px;
-            margin-left: 0.25rem;
-            vertical-align: top;
-        }
-    </style>
 </head>
 <body>
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay"></div>
+    
     <nav class="navbar">
         <div class="logo">
-            <div class="logo-icon">UP</div>
+            <div class="logo-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
             <a href="/" class="logo-text">UniPapers</a>
         </div>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" aria-label="Toggle navigation menu">
+            <span class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </span>
+        </button>
+        
         <div class="nav-links">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/browse" class="nav-link">Browse Papers</a>
+            <a href="/" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="/browse" class="nav-link">
+                <i class="fas fa-search"></i>
+                <span class="nav-text">Browse Papers</span>
+            </a>
             
             {% if current_user.is_authenticated %}
-                <a href="/upload" class="nav-link">Upload Paper</a>
+                <a href="/upload" class="nav-link">
+                    <i class="fas fa-upload"></i>
+                    <span class="nav-text">Upload Paper</span>
+                </a>
                 
                 {% if current_user.is_admin %}
                     <!-- Admin Dropdown -->
                     <div class="dropdown">
                         <a href="/admin/dashboard" class="nav-link dropdown-toggle">
-                            Admin Panel
+                            <i class="fas fa-shield-alt"></i>
+                            <span class="nav-text">Admin Panel</span>
                             {% if pending_count > 0 %}
                                 <span class="notification-badge">{{ pending_count }}</span>
                             {% endif %}
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </a>
                         <div class="dropdown-menu">
                             <a href="/admin/dashboard" class="dropdown-item">
-                                📊 Dashboard
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
                                 {% if pending_count > 0 %}
                                     <span class="notification-badge">{{ pending_count }}</span>
                                 {% endif %}
                             </a>
-                            <a href="/admin/papers" class="dropdown-item">📚 Paper Management</a>
-                            <a href="/admin/users" class="dropdown-item">👥 User Management</a>
+                            <a href="/admin/papers" class="dropdown-item">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Paper Management</span>
+                            </a>
+                            <a href="/admin/users" class="dropdown-item">
+                                <i class="fas fa-users"></i>
+                                <span>User Management</span>
+                            </a>
                             <div class="dropdown-divider"></div>
-                            <a href="/admin/settings" class="dropdown-item">⚙️ Settings</a>
-                            <a href="/admin/logs" class="dropdown-item">📋 System Logs</a>
+                            <a href="/admin/settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                            <a href="/admin/logs" class="dropdown-item">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span>System Logs</span>
+                            </a>
                         </div>
                     </div>
                 {% endif %}
@@ -145,31 +91,52 @@
                 <!-- User Dropdown -->
                 <div class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle">
-                        👤 {{ current_user.username }}
+                        <i class="fas fa-user-circle"></i>
+                        <span class="nav-text">{{ current_user.username }}</span>
                         {% if current_user.is_admin %}
-                            <span style="color: #ffd700; margin-left: 0.25rem;">★</span>
+                            <i class="fas fa-crown admin-crown"></i>
                         {% endif %}
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </a>
                     <div class="dropdown-menu">
-                        <div class="dropdown-item" style="color: var(--medium-gray); font-size: 0.9rem; cursor: default;">
-                            <strong>{{ current_user.email }}</strong>
+                        <div class="dropdown-header">
+                            <div class="dropdown-user-email">
+                                <i class="fas fa-envelope"></i>
+                                {{ current_user.email }}
+                            </div>
                             {% if current_user.is_admin %}
-                                <div style="color: var(--air-force-blue); font-size: 0.8rem; margin-top: 0.25rem;">
+                                <div class="dropdown-user-role">
+                                    <i class="fas fa-shield-alt"></i>
                                     Administrator
                                 </div>
                             {% endif %}
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a href="/browse?uploader={{ current_user.id }}" class="dropdown-item">📄 My Uploads</a>
-                        <a href="#" class="dropdown-item">👤 My Profile</a>
+                        <a href="/browse?uploader={{ current_user.id }}" class="dropdown-item">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>My Uploads</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user-edit"></i>
+                            <span>My Profile</span>
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a href="/logout" class="dropdown-item" style="color: #dc3545;">🚪 Logout</a>
+                        <a href="/logout" class="dropdown-item logout-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
                     </div>
                 </div>
                 
             {% else %}
-                <a href="/login" class="nav-link">Login</a>
-                <a href="/register" class="nav-link">Register</a>
+                <a href="/login" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span class="nav-text">Login</span>
+                </a>
+                <a href="/register" class="nav-link">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="nav-text">Register</span>
+                </a>
             {% endif %}
         </div>
     </nav>
@@ -179,7 +146,8 @@
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ 'error' if category == 'error' else 'success' }}">
-                        {{ message }}
+                        <i class="alert-icon fas fa-{% if category == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                        <span class="alert-message">{{ message }}</span>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -190,30 +158,583 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; 2025 UniPapers. All rights reserved.</p>
-            <p>Academic resource platform for university students.</p>
-            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--medium-gray);">
+            <div class="footer-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="footer-logo-text">UniPapers</span>
+            </div>
+            <p class="footer-tagline">Academic resource platform for university students.</p>
+            <p class="footer-copyright">&copy; 2025 UniPapers. All rights reserved.</p>
+            <div class="footer-status">
                 {% if current_user.is_authenticated %}
-                    <span>Logged in as: {{ current_user.username }}</span>
-                    {% if current_user.is_admin %}
-                        <span style="margin-left: 1rem; color: var(--air-force-blue);">(Administrator)</span>
-                    {% endif %}
+                    <div class="footer-user">
+                        <i class="fas fa-user"></i>
+                        <span>Logged in as: <strong>{{ current_user.username }}</strong></span>
+                        {% if current_user.is_admin %}
+                            <span class="footer-admin-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                Administrator
+                            </span>
+                        {% endif %}
+                    </div>
                 {% else %}
-                    <span>You are not logged in</span>
+                    <div class="footer-user">
+                        <i class="fas fa-user-slash"></i>
+                        <span>You are not logged in</span>
+                    </div>
                 {% endif %}
             </div>
         </div>
     </footer>
 
+    <style>
+        /* Additional base template styles */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .mobile-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Logo icon */
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--air-force-blue);
+            font-size: 20px;
+        }
+        
+        /* Navigation icons */
+        .nav-link i, .dropdown-toggle i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-text {
+            margin-left: 8px;
+        }
+        
+        /* Dropdown arrows */
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        
+        /* Admin crown */
+        .admin-crown {
+            color: #FFD700;
+            margin-left: 6px;
+            font-size: 0.9rem;
+        }
+        
+        /* Dropdown menu */
+        .dropdown-menu {
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-gray);
+            min-width: 240px;
+            padding: 8px 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1001;
+            display: none;
+            animation: dropdownFadeIn 0.2s ease;
+        }
+        
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 1rem;
+            color: var(--medium-gray);
+        }
+        
+        .dropdown-item:hover {
+            background-color: var(--light-gray);
+            color: var(--air-force-blue);
+        }
+        
+        .dropdown-item:hover i {
+            color: var(--air-force-blue);
+        }
+        
+        .dropdown-item.active {
+            background-color: var(--air-force-blue);
+            color: var(--primary-white);
+        }
+        
+        .dropdown-item.active i {
+            color: var(--primary-white);
+        }
+        
+        .dropdown-header {
+            padding: 12px 16px;
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+        
+        .dropdown-user-email, .dropdown-user-role {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dropdown-user-email i, .dropdown-user-role i {
+            font-size: 0.9rem;
+            width: 16px;
+        }
+        
+        .dropdown-user-role {
+            margin-top: 4px;
+            color: var(--air-force-blue);
+            font-size: 0.85rem;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-gray);
+            margin: 8px 0;
+            border: none;
+        }
+        
+        .logout-item {
+            color: var(--error-red) !important;
+        }
+        
+        .logout-item i {
+            color: var(--error-red) !important;
+        }
+        
+        .logout-item:hover {
+            background-color: rgba(220, 53, 69, 0.1) !important;
+        }
+        
+        /* Alert styling */
+        .alert {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .alert-icon {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .alert-success .alert-icon {
+            color: var(--success-green);
+        }
+        
+        .alert-error .alert-icon {
+            color: var(--error-red);
+        }
+        
+        .alert-message {
+            flex: 1;
+        }
+        
+        /* Footer styling */
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-logo i {
+            font-size: 24px;
+            color: var(--air-force-blue);
+        }
+        
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--air-force-blue);
+        }
+        
+        .footer-tagline {
+            color: var(--medium-gray);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .footer-copyright {
+            color: var(--medium-gray);
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+        
+        .footer-user {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-user i {
+            color: var(--medium-gray);
+        }
+        
+        .footer-admin-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background-color: rgba(0, 48, 143, 0.1);
+            color: var(--air-force-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .footer-admin-badge i {
+            color: var(--air-force-blue);
+            font-size: 0.8rem;
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            background-color: var(--error-red);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            min-width: 18px;
+            text-align: center;
+            display: inline-block;
+            line-height: 1.2;
+        }
+        
+        /* Menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+        }
+        
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            transition: transform 0.3s ease;
+        }
+        
+        .hamburger .bar {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-white);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle.active .hamburger .bar:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .menu-toggle.active .hamburger .bar:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active .hamburger .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        /* ========== RESPONSIVE STYLES ========== */
+        
+        /* Tablet and below (768px) */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--air-force-blue);
+                flex-direction: column;
+                padding: 20px;
+                gap: 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-link {
+                width: 100%;
+                padding: 14px 16px;
+                border-radius: 8px;
+                margin-bottom: 4px;
+                justify-content: flex-start;
+            }
+            
+            .nav-text {
+                flex: 1;
+            }
+            
+            .dropdown {
+                width: 100%;
+            }
+            
+            .dropdown-toggle {
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.1);
+                margin-top: 4px;
+                margin-left: 32px;
+                padding: 0;
+                display: none;
+                animation: none;
+                min-width: auto;
+            }
+            
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+            
+            .dropdown-item {
+                color: var(--primary-white);
+                padding: 12px 16px;
+                padding-left: 32px;
+            }
+            
+            .dropdown-item i {
+                color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .dropdown-item:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: var(--primary-white);
+            }
+            
+            .dropdown-item:hover i {
+                color: var(--primary-white);
+            }
+            
+            .dropdown-header {
+                color: rgba(255, 255, 255, 0.9);
+                padding-left: 32px;
+            }
+            
+            .dropdown-user-role {
+                color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .dropdown-divider {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+            
+            .logout-item {
+                color: #ff6b6b !important;
+            }
+            
+            .logout-item i {
+                color: #ff6b6b !important;
+            }
+            
+            .logout-item:hover {
+                background-color: rgba(255, 107, 107, 0.1) !important;
+            }
+            
+            .dropdown-arrow {
+                transition: transform 0.3s ease;
+            }
+            
+            .dropdown.active .dropdown-arrow {
+                transform: rotate(180deg);
+            }
+        }
+        
+        /* Mobile (480px and below) */
+        @media (max-width: 480px) {
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .footer-logo i {
+                font-size: 20px;
+            }
+            
+            .footer-logo-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+
     <script>
-        // Add active class to current page nav link
+        // Mobile navigation functionality
         document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const mobileOverlay = document.querySelector('.mobile-overlay');
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            // Toggle mobile menu
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    if (mobileOverlay) {
+                        mobileOverlay.classList.toggle('active');
+                    }
+                    
+                    // Close all dropdowns when menu is closed
+                    if (!navLinks.classList.contains('active')) {
+                        dropdowns.forEach(dropdown => {
+                            dropdown.classList.remove('active');
+                        });
+                    }
+                });
+                
+                // Close menu when clicking on overlay
+                if (mobileOverlay) {
+                    mobileOverlay.addEventListener('click', function() {
+                        menuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        this.classList.remove('active');
+                        dropdowns.forEach(dropdown => {
+                            dropdown.classList.remove('active');
+                        });
+                    });
+                }
+                
+                // Close menu when clicking outside on mobile
+                document.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768 && 
+                        !navLinks.contains(e.target) && 
+                        !menuToggle.contains(e.target) &&
+                        navLinks.classList.contains('active')) {
+                        menuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        if (mobileOverlay) {
+                            mobileOverlay.classList.remove('active');
+                        }
+                        dropdowns.forEach(dropdown => {
+                            dropdown.classList.remove('active');
+                        });
+                    }
+                });
+            }
+            
+            // Mobile dropdown toggle
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                
+                if (toggle) {
+                    toggle.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Close other dropdowns
+                            dropdowns.forEach(otherDropdown => {
+                                if (otherDropdown !== dropdown) {
+                                    otherDropdown.classList.remove('active');
+                                }
+                            });
+                            
+                            // Toggle current dropdown
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+            
+            // Active link highlighting
             const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinksAll = document.querySelectorAll('.nav-link');
             const dropdownItems = document.querySelectorAll('.dropdown-item');
             
             // Highlight current page in main nav
-            navLinks.forEach(link => {
+            navLinksAll.forEach(link => {
                 if (link.getAttribute('href') === currentPath) {
                     link.classList.add('active');
                 }
@@ -234,55 +755,73 @@
                 }
             });
             
-            // Mobile dropdown toggle
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        const dropdown = this.closest('.dropdown');
-                        dropdown.classList.toggle('active');
+            // Show pending count if available
+            {% if pending_count is defined %}
+                // Update notification badge every 30 seconds
+                setInterval(async () => {
+                    try {
+                        const response = await fetch('/api/admin/stats');
+                        const data = await response.json();
+                        
+                        const badges = document.querySelectorAll('.notification-badge');
+                        if (data.pending_papers > 0) {
+                            badges.forEach(badge => {
+                                badge.textContent = data.pending_papers;
+                                badge.style.display = 'inline-block';
+                            });
+                        } else {
+                            badges.forEach(badge => {
+                                badge.style.display = 'none';
+                            });
+                        }
+                    } catch (error) {
+                        console.log('Could not fetch updated stats');
                     }
-                });
+                }, 30000);
+            {% endif %}
+            
+            // Handle window resize
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    // Close mobile menu on resize to desktop
+                    if (window.innerWidth > 768) {
+                        if (menuToggle) menuToggle.classList.remove('active');
+                        if (navLinks) navLinks.classList.remove('active');
+                        if (mobileOverlay) mobileOverlay.classList.remove('active');
+                        dropdowns.forEach(dropdown => {
+                            dropdown.classList.remove('active');
+                        });
+                    }
+                }, 250);
             });
             
-            // Close dropdowns when clicking outside (mobile)
-            document.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    const dropdowns = document.querySelectorAll('.dropdown');
+            // Keyboard navigation support
+            document.addEventListener('keydown', function(e) {
+                // Close menu on Escape key
+                if (e.key === 'Escape') {
+                    if (menuToggle) menuToggle.classList.remove('active');
+                    if (navLinks) navLinks.classList.remove('active');
+                    if (mobileOverlay) mobileOverlay.classList.remove('active');
                     dropdowns.forEach(dropdown => {
-                        if (!dropdown.contains(e.target)) {
-                            dropdown.classList.remove('active');
-                        }
+                        dropdown.classList.remove('active');
                     });
                 }
             });
-        });
-        
-        // Show pending count if available (for real-time updates)
-        {% if pending_count is defined %}
-            // Update notification badge every 30 seconds
-            setInterval(async () => {
-                try {
-                    const response = await fetch('/api/admin/stats');
-                    const data = await response.json();
-                    
-                    const badges = document.querySelectorAll('.notification-badge');
-                    if (data.pending_papers > 0) {
-                        badges.forEach(badge => {
-                            badge.textContent = data.pending_papers;
-                            badge.style.display = 'inline';
-                        });
-                    } else {
-                        badges.forEach(badge => {
-                            badge.style.display = 'none';
-                        });
-                    }
-                } catch (error) {
-                    console.log('Could not fetch updated stats');
+            
+            // Initialize menu toggle display
+            function initMenuToggle() {
+                if (window.innerWidth <= 768) {
+                    if (menuToggle) menuToggle.style.display = 'flex';
+                } else {
+                    if (menuToggle) menuToggle.style.display = 'none';
                 }
-            }, 30000);
-        {% endif %}
+            }
+            
+            // Run on load
+            initMenuToggle();
+        });
     </script>
 </body>
 </html>
