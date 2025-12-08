@@ -520,3 +520,139 @@
 2025-12-08 12:36:21,760 - System - INFO - Homepage accessed
 2025-12-08 12:36:21,762 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:36:21] "GET / HTTP/1.1" 200 -
 2025-12-08 12:36:21,785 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:36:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 12:36:52,310 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:36:52] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:37:22,330 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:37:22] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:37:52,336 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:37:52] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:38:22,353 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:38:22] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:38:52,351 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:38:52] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:39:22,345 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:39:22] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:39:52,350 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:39:52] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:40:24,349 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:40:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:41:24,338 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:41:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:42:07,665 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:42:07] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:54:24,325 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:54:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:54:52,377 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:54:52] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:55:22,340 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:55:22] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:56:23,339 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:56:23] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:57:24,348 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:57:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:58:24,329 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:58:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 12:59:24,340 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 12:59:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:00:24,340 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:00:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:01:24,301 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:01:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:02:24,356 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:02:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:03:24,383 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:03:24] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:03:52,369 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:03:52] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:04:22,306 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:04:22] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:05:21,194 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:21] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:05:22,632 - System - INFO - Homepage accessed
+2025-12-08 13:05:22,642 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:22] "GET / HTTP/1.1" 200 -
+2025-12-08 13:05:22,669 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:05:22,690 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:22] "[33mGET /static/images/favicon.png HTTP/1.1[0m" 404 -
+2025-12-08 13:05:23,638 - System - INFO - Homepage accessed
+2025-12-08 13:05:23,639 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:23] "GET / HTTP/1.1" 200 -
+2025-12-08 13:05:23,662 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:05:24,199 - System - INFO - Homepage accessed
+2025-12-08 13:05:24,200 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:24] "GET / HTTP/1.1" 200 -
+2025-12-08 13:05:24,220 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:05:24,389 - System - INFO - Homepage accessed
+2025-12-08 13:05:24,390 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:24] "GET / HTTP/1.1" 200 -
+2025-12-08 13:05:24,418 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:05:24,673 - System - INFO - Homepage accessed
+2025-12-08 13:05:24,676 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:24] "GET / HTTP/1.1" 200 -
+2025-12-08 13:05:24,700 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:05:55,335 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:05:55] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:06:20,675 - System - INFO - Homepage accessed
+2025-12-08 13:06:20,678 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:06:20] "GET / HTTP/1.1" 200 -
+2025-12-08 13:06:20,700 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:06:20] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:06:23,039 - System - INFO - Homepage accessed
+2025-12-08 13:06:23,040 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:06:23] "GET / HTTP/1.1" 200 -
+2025-12-08 13:06:23,062 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:06:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:06:23,516 - System - INFO - Homepage accessed
+2025-12-08 13:06:23,519 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:06:23] "GET / HTTP/1.1" 200 -
+2025-12-08 13:06:23,544 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:06:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:07:14,137 - System - INFO - Application initialized and admin user created
+2025-12-08 13:07:14,143 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-08 13:07:14,143 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-08 13:07:14,144 - werkzeug - INFO -  * Restarting with stat
+2025-12-08 13:07:14,583 - System - INFO - Application initialized and admin user created
+2025-12-08 13:07:14,585 - werkzeug - WARNING -  * Debugger is active!
+2025-12-08 13:07:14,592 - werkzeug - INFO -  * Debugger PIN: 957-911-045
+2025-12-08 13:07:19,747 - System - INFO - Homepage accessed
+2025-12-08 13:07:19,763 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:07:19] "GET / HTTP/1.1" 200 -
+2025-12-08 13:07:19,785 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:07:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:07:50,318 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:07:50] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:08:20,312 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:08:20] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:08:50,333 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:08:50] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:09:20,314 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:09:20] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:09:50,319 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:09:50] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:10:20,335 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:20] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:10:24,640 - System - INFO - Homepage accessed
+2025-12-08 13:10:24,647 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:24] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:24,672 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:24,839 - System - INFO - Homepage accessed
+2025-12-08 13:10:24,841 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:24] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:24,861 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:25,024 - System - INFO - Homepage accessed
+2025-12-08 13:10:25,026 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:25,048 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:25,206 - System - INFO - Homepage accessed
+2025-12-08 13:10:25,207 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:25,233 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:25,383 - System - INFO - Homepage accessed
+2025-12-08 13:10:25,385 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:25,415 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:25,557 - System - INFO - Homepage accessed
+2025-12-08 13:10:25,558 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:25,578 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:25,728 - System - INFO - Homepage accessed
+2025-12-08 13:10:25,729 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:25,758 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:25,913 - System - INFO - Homepage accessed
+2025-12-08 13:10:25,914 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:25,940 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:26,093 - System - INFO - Homepage accessed
+2025-12-08 13:10:26,094 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:26,115 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:26,272 - System - INFO - Homepage accessed
+2025-12-08 13:10:26,273 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:26,297 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:26,456 - System - INFO - Homepage accessed
+2025-12-08 13:10:26,457 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:26,481 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:26,646 - System - INFO - Homepage accessed
+2025-12-08 13:10:26,647 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:26,673 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:26,828 - System - INFO - Homepage accessed
+2025-12-08 13:10:26,829 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:26,855 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:27,028 - System - INFO - Homepage accessed
+2025-12-08 13:10:27,030 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:27,056 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:27,213 - System - INFO - Homepage accessed
+2025-12-08 13:10:27,214 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:27,240 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:27,384 - System - INFO - Homepage accessed
+2025-12-08 13:10:27,386 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:27,405 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:27,543 - System - INFO - Homepage accessed
+2025-12-08 13:10:27,544 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:27,568 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:32,816 - Auth - INFO - User logged out: admin
+2025-12-08 13:10:32,816 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:32] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-12-08 13:10:32,827 - System - INFO - Homepage accessed
+2025-12-08 13:10:32,827 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:32] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:32,859 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:10:35,232 - System - INFO - Homepage accessed
+2025-12-08 13:10:35,233 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:35] "GET / HTTP/1.1" 200 -
+2025-12-08 13:10:35,261 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:10:35] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-12-08 13:11:05,323 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:11:05] "[32mGET /api/admin/stats HTTP/1.1[0m" 302 -
+2025-12-08 13:11:05,334 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:11:05] "GET /login?next=/api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:11:35,306 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:11:35] "[32mGET /api/admin/stats HTTP/1.1[0m" 302 -
+2025-12-08 13:11:35,312 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:11:35] "GET /login?next=/api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:12:05,310 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:12:05] "[32mGET /api/admin/stats HTTP/1.1[0m" 302 -
+2025-12-08 13:12:05,319 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:12:05] "GET /login?next=/api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:12:35,310 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:12:35] "[32mGET /api/admin/stats HTTP/1.1[0m" 302 -
+2025-12-08 13:12:35,316 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:12:35] "GET /login?next=/api/admin/stats HTTP/1.1" 200 -
+2025-12-08 13:13:05,324 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:13:05] "[32mGET /api/admin/stats HTTP/1.1[0m" 302 -
+2025-12-08 13:13:05,330 - werkzeug - INFO - 127.0.0.1 - - [08/Dec/2025 13:13:05] "GET /login?next=/api/admin/stats HTTP/1.1" 200 -
